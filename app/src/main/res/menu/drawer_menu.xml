@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_movies"
+            android:icon="@drawable/ic_movie_white_24dp"
+            android:title="Movies" />
+        <item
+            android:id="@+id/nav_tv"
+            android:icon="@drawable/ic_tv_white"
+            android:title="TV Show" />
+
+        <item
+            android:id="@+id/nav_person"
+            android:icon="@drawable/ic_person_white"
+            android:title="People/Actors" />
+    </group>
+
+
+</menu>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#021C23</color>
+    <color name="colorPrimaryDark">#001C22</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="viewBg">#f1f5f8</color>
+    <color name="Movietitle">#4c4c4c</color>
+    <color name="white">#fff</color>
+    <color name="pink">#FCE4EC</color>
+    <color name="color_white_semitransparent">#99FFFFFF</color>
+    <color name="color_transparent">#00FFFFFF</color>
+    <color name="transparent">#00000000</color>
+    <color name="greenPrimary">#00D277</color>
+
+</resources>
