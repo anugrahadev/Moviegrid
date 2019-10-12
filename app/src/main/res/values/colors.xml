@@ -8,6 +8,7 @@
     <color name="white">#fff</color>
     <color name="pink">#FCE4EC</color>
     <color name="color_white_semitransparent">#99FFFFFF</color>
+    <color name="color_black_semitransparent">#99000000</color>
     <color name="color_transparent">#00FFFFFF</color>
     <color name="transparent">#00000000</color>
     <color name="greenPrimary">#00D277</color>

@@ -1,12 +1,14 @@
 package com.anugraha.project.moviegrid.api;
 
-import com.anugraha.project.moviegrid.Adapter.PersonAdapter;
 import com.anugraha.project.moviegrid.model.CreditResponse;
-import com.anugraha.project.moviegrid.model.MovieDetailResponse;
+import com.anugraha.project.moviegrid.model.MovieDetail.MovieDetailGenre;
+import com.anugraha.project.moviegrid.model.MovieDetail.MovieDetailResponse;
+import com.anugraha.project.moviegrid.model.MovieDetail.MovieSimilarResponse;
 import com.anugraha.project.moviegrid.model.MoviesResponse;
 import com.anugraha.project.moviegrid.model.Person;
 import com.anugraha.project.moviegrid.model.PersonResponse;
 import com.anugraha.project.moviegrid.model.ProfilesResponse;
+import com.anugraha.project.moviegrid.model.ReviewsResponse;
 import com.anugraha.project.moviegrid.model.TVResponse;
 import com.anugraha.project.moviegrid.model.TrailerResponse;
 
@@ -32,6 +34,12 @@ public interface Service {
 
     @GET("movie/{movie_id}")
     Call<MovieDetailResponse> getMovieDEtail(@Path("movie_id") int id, @Query("api_key") String apiKey);
+
+    @GET("movie/{movie_id}")
+    Call<MovieDetailGenre> getMovieDetailGenre(@Path("movie_id") int id, @Query("api_key") String apiKey);
+
+    @GET("movie/{movie_id}/similar")
+    Call<MovieSimilarResponse> getSimiliarMovie(@Path("movie_id") int id, @Query("api_key") String apiKey);
     //ENDMOVIES
 
     //TV
@@ -56,6 +64,10 @@ public interface Service {
     Call<CreditResponse> getCredits(@Path("movie_id") int id, @Query("api_key") String apiKey);
     //END
 
+    //MOVIE REVIEW
+    @GET("movie/{movie_id}/reviews")
+    Call<ReviewsResponse> getReviews(@Path("movie_id") int id, @Query("api_key") String apiKey);
+
     //PERSON
 
     @GET("person/popular")
@@ -67,4 +79,6 @@ public interface Service {
     @GET("person/{person_id}/images")
     Call<ProfilesResponse> getPersonImages(@Path("person_id") int id, @Query("api_key") String apiKey);
     //ENDPERSON
+
+
 }

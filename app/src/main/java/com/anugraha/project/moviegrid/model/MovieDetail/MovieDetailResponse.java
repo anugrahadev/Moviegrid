@@ -1,8 +1,9 @@
-package com.anugraha.project.moviegrid.model;
+package com.anugraha.project.moviegrid.model.MovieDetail;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 public class MovieDetailResponse {
 
@@ -18,9 +19,9 @@ public class MovieDetailResponse {
     @SerializedName("budget")
     @Expose
     private Integer budget;
-//    @SerializedName("genres")
-//    @Expose
-//    private List<Genre> genres = null;
+    @SerializedName("genres")
+    @Expose
+    private List<MovieDetailGenre> genres = null;
     @SerializedName("homepage")
     @Expose
     private String homepage;
@@ -114,13 +115,13 @@ public class MovieDetailResponse {
         this.budget = budget;
     }
 
-//    public List<Genre> getGenres() {
-//        return genres;
-//    }
-//
-//    public void setGenres(List<Genre> genres) {
-//        this.genres = genres;
-//    }
+    public List<MovieDetailGenre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<MovieDetailGenre> genres) {
+        this.genres = genres;
+    }
 
     public String getHomepage() {
         return homepage;

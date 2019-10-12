@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
+        card_view:cardBackgroundColor="@color/color_white_semitransparent"
         android:layout_margin="@dimen/card_margin"
         android:elevation="3dp"
         card_view:cardCornerRadius="@dimen/card_movie_radius">
@@ -34,7 +35,7 @@
                 android:paddingLeft="@dimen/movie_title_padding"
                 android:paddingRight="@dimen/movie_title_padding"
                 android:paddingTop="@dimen/movie_title_padding"
-                android:textColor="@color/Movietitle"
+                android:textColor="#0F0C0C"
                 android:textStyle="bold"
                 android:textSize="@dimen/movie_title"/>
 

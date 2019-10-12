@@ -17,34 +17,28 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
-public class CreditAdapter extends RecyclerView.Adapter<CreditAdapter.MyViewHolder> {
-    private List<Cast> castList;
+public class CrewAdapter extends RecyclerView.Adapter<CrewAdapter.MyViewHolder> {
     private List<Crew> crewList;
     private Context mContext;
-    public CreditAdapter(Context mContext, List<Cast> castList){
-        this.castList = castList;
-        this.mContext=mContext;
-
-    }
-
-    public CreditAdapter(Context mContext, List<Cast> castList, List<Crew> crewList){
-        this.castList = castList;
-        this.mContext=mContext;
+    public CrewAdapter(Context mContext, List<Crew> crewList){
         this.crewList = crewList;
+        this.mContext=mContext;
+
     }
+
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.card_cast, viewGroup, false);
-        return new CreditAdapter.MyViewHolder(view);
+        return new CrewAdapter.MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.tv_castact.setText(castList.get(position).getCharacter());
-        holder.tv_castname.setText(castList.get(position).getName());
+        holder.tv_castact.setText(crewList.get(position).getDepartment());
+        holder.tv_castname.setText(crewList.get(position).getName());
         Glide.with(mContext)
-                .load("https://image.tmdb.org/t/p/w154/"+castList.get(position).getProfilePath())
+                .load("https://image.tmdb.org/t/p/w154/"+crewList.get(position).getProfilePath())
                 .placeholder(R.drawable.load)
                 .override(100, 175)
                 .into(holder.iv_castpic);
@@ -52,7 +46,7 @@ public class CreditAdapter extends RecyclerView.Adapter<CreditAdapter.MyViewHold
 
     @Override
     public int getItemCount() {
-        return castList.size();
+        return crewList.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -68,9 +62,9 @@ public class CreditAdapter extends RecyclerView.Adapter<CreditAdapter.MyViewHold
                 public void onClick(View v) {
                     int pos = getAdapterPosition();
                     if (pos != RecyclerView.NO_POSITION){
-                        Cast clickedDataItem = castList.get(pos);
+                        Crew clickedDataItem = crewList.get(pos);
                         Intent intent1 = new Intent(mContext, PersonActivity.class);
-                        intent1.putExtra("id",castList.get(pos).getId());
+                        intent1.putExtra("id",crewList.get(pos).getId());
                         intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         mContext.startActivity(intent1);
 
