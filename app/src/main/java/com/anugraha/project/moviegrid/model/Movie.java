@@ -71,10 +71,9 @@ public class Movie implements Parcelable {
         }
     };
 
-    final String BASE_IMG_URL = "https://image.tmdb.org/t/p/w342/";
     public String getPosterPath()
     {
-        return  "https://image.tmdb.org/t/p/w342" + posterPath;
+        return  posterPath;
     }
 
     public void setPosterPath(String posterPath) {

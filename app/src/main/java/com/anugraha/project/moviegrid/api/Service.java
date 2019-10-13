@@ -21,16 +21,16 @@ public interface Service {
 
     //MOVIES
     @GET("movie/popular")
-    Call<MoviesResponse> getPopularMovis(@Query("api_key") String apiKey);
+    Call<MoviesResponse> getPopularMovis(@Query("api_key") String apiKey, @Query("page") int pageIndex);
 
     @GET("movie/top_rated")
-    Call<MoviesResponse> getTop_ratedMovis(@Query("api_key") String apiKey);
+    Call<MoviesResponse> getTop_ratedMovis(@Query("api_key") String apiKey, @Query("page") int pageIndex);
 
     @GET("movie/upcoming")
-    Call<MoviesResponse> getUpcoming(@Query("api_key") String apiKey);
+    Call<MoviesResponse> getUpcoming(@Query("api_key") String apiKey, @Query("page") int pageIndex);
 
     @GET("movie/now_playing")
-    Call<MoviesResponse> getNow_playing(@Query("api_key") String apiKey);
+    Call<MoviesResponse> getNow_playing(@Query("api_key") String apiKey, @Query("page") int pageIndex);
 
     @GET("movie/{movie_id}")
     Call<MovieDetailResponse> getMovieDEtail(@Path("movie_id") int id, @Query("api_key") String apiKey);

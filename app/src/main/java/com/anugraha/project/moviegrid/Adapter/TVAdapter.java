@@ -59,7 +59,7 @@ public class TVAdapter extends RecyclerView.Adapter<TVAdapter.MyViewHolder>{
             title = (TextView) view.findViewById(R.id.title);
             userrating = (TextView) view.findViewById(R.id.tv_user_rating);
             date = (TextView) view.findViewById(R.id.tv_release);
-            thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
+            thumbnail = (ImageView) view.findViewById(R.id.iv_thumbnail);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

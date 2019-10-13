@@ -59,7 +59,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewGHol
 
         viewHolder.tv_release.setText(movieList.get(i).getReleaseDate());
         Glide.with(mContext)
-                .load(movieList.get(i).getPosterPath())
+                .load("https://image.tmdb.org/t/p/w342"+movieList.get(i).getPosterPath())
                 .placeholder(R.drawable.load)
                 .into(viewHolder.thumbnail);
     }
@@ -78,7 +78,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewGHol
             title = (TextView) view.findViewById(R.id.title);
             tv_release = (TextView) view.findViewById(R.id.tv_release);
             userrating = (TextView) view.findViewById(R.id.tv_user_rating);
-            thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
+            thumbnail = (ImageView) view.findViewById(R.id.iv_thumbnail);
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
