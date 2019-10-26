@@ -42,10 +42,10 @@ public class DetailActivity extends AppCompatActivity implements TabLayout.OnTab
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         Intent intentStarted = getIntent();
-        progressDialog = new ProgressDialog(DetailActivity.this);
-        progressDialog.setMessage("Loading movies...");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
+//        progressDialog = new ProgressDialog(DetailActivity.this);
+//        progressDialog.setMessage("Loading movies...");
+//        progressDialog.setCancelable(false);
+//        progressDialog.show();
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -104,7 +104,7 @@ public class DetailActivity extends AppCompatActivity implements TabLayout.OnTab
             call.enqueue(new Callback<MovieDetailResponse>() {
                 @Override
                 public void onResponse(Call<MovieDetailResponse> call, Response<MovieDetailResponse> response) {
-                    progressDialog.dismiss();
+//                    progressDialog.dismiss();
                     Glide.with(getApplicationContext())
                             .load("https://image.tmdb.org/t/p/w780/"+response.body().getBackdropPath())
                             .placeholder(R.drawable.load)

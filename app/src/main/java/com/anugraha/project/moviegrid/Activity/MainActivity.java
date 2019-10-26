@@ -1,5 +1,6 @@
 package com.anugraha.project.moviegrid.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -8,10 +9,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.anugraha.project.moviegrid.FragmentDrawer.MoviesFragment;
 import com.anugraha.project.moviegrid.FragmentDrawer.PersonFragment;
+import com.anugraha.project.moviegrid.FragmentDrawer.SearchFragment;
 import com.anugraha.project.moviegrid.FragmentDrawer.TvFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -56,6 +59,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new PersonFragment()).commit();
                 break;
+            case R.id.nav_search:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new SearchFragment()).commit();
+                break;
         }
 
         drawer.closeDrawer(GravityCompat.START);
@@ -70,4 +77,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             super.onBackPressed();
         }
     }
+
+//    public boolean onCreateOptionsMenu(Menu menu){
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        return super.onCreateOptionsMenu(menu);
+//    }
+//
+//    public boolean onOptionsItemSelected(MenuItem item){
+//        if (item.getItemId()==R.id.search_button){
+//            startActivity(new Intent(this, SearchActivity.class));
+//        }
+//        return true;
+//    }
 }

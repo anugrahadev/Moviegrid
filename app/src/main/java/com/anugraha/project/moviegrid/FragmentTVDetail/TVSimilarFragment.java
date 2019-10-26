@@ -1,4 +1,4 @@
-package com.anugraha.project.moviegrid.FragmentPerson;
+package com.anugraha.project.moviegrid.FragmentTVDetail;
 
 
 import android.os.Bundle;
@@ -12,10 +12,10 @@ import com.anugraha.project.moviegrid.Activity.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Cast extends Fragment {
+public class TVSimilarFragment extends Fragment {
 
 
-    public Cast() {
+    public TVSimilarFragment() {
         // Required empty public constructor
     }
 
@@ -24,7 +24,7 @@ public class Cast extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_cast, container, false);
+        return inflater.inflate(R.layout.fragment_tvsimilar, container, false);
     }
 
 }

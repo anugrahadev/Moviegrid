@@ -24,25 +24,19 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewGHol
     public MoviesAdapter(Context mContext, List<Movie> movieList) {
         this.mContext = mContext;
         this.movieList = movieList;
-
     }
-
-
 
     @Override
     public MyViewGHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.card_movie, viewGroup, false);
-
         return new MyViewGHolder(view);
     }
-
 
     @Override
     public void onBindViewHolder(MyViewGHolder viewHolder, int i) {
         viewHolder.title.setText(movieList.get(i).getOriginalTitle());
         String vote = Double.toString(movieList.get(i).getVoteAverage());
-
 
         if (movieList.get(i).getVoteAverage()==0){
             viewHolder.userrating.setText("NR");

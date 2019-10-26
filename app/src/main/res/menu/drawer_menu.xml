@@ -2,7 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
-    <group android:checkableBehavior="single">
+    <group android:id="@+id/sorting" android:checkableBehavior="single">
+    <item
+        android:id="@+id/nav_search"
+        android:icon="@drawable/ic_search"
+        android:title="Search" />
+    </group>
+    <group android:checkableBehavior="single" android:id="@+id/list">
+
         <item
             android:id="@+id/nav_movies"
             android:icon="@drawable/ic_movie_white_24dp"
@@ -11,11 +18,10 @@
             android:id="@+id/nav_tv"
             android:icon="@drawable/ic_tv_white"
             android:title="TV Show" />
-
         <item
             android:id="@+id/nav_person"
             android:icon="@drawable/ic_person_white"
-            android:title="People/Actors" />
+            android:title="Popular People/Actors" />
     </group>
 
 

@@ -5,6 +5,11 @@ import com.anugraha.project.moviegrid.model.MovieDetail.MovieDetailGenre;
 import com.anugraha.project.moviegrid.model.MovieDetail.MovieDetailResponse;
 import com.anugraha.project.moviegrid.model.MovieDetail.MovieSimilarResponse;
 import com.anugraha.project.moviegrid.model.MoviesResponse;
+import com.anugraha.project.moviegrid.model.PeopleModel.CastCombinedResponse;
+import com.anugraha.project.moviegrid.model.PeopleModel.CastResponse;
+import com.anugraha.project.moviegrid.model.PeopleModel.CrewCombinedResponse;
+import com.anugraha.project.moviegrid.model.PeopleModel.CrewResponse;
+import com.anugraha.project.moviegrid.model.PeopleModel.PeopleCreditResponse;
 import com.anugraha.project.moviegrid.model.Person;
 import com.anugraha.project.moviegrid.model.PersonResponse;
 import com.anugraha.project.moviegrid.model.ProfilesResponse;
@@ -40,6 +45,8 @@ public interface Service {
 
     @GET("movie/{movie_id}/similar")
     Call<MovieSimilarResponse> getSimiliarMovie(@Path("movie_id") int id, @Query("api_key") String apiKey);
+
+
     //ENDMOVIES
 
     //TV
@@ -76,9 +83,31 @@ public interface Service {
     @GET("person/{person_id}")
     Call<Person> getPerson(@Path("person_id") int id, @Query("api_key") String apiKey);
 
+    @GET("person/{person_id}/movie_credits")
+    Call<CastResponse> getCastmovie_credits(@Path("person_id") int id, @Query("api_key") String apiKey);
+
+    @GET("person/{person_id}/movie_credits")
+    Call<CrewResponse> getCrewmovie_credits(@Path("person_id") int id, @Query("api_key") String apiKey);
+
     @GET("person/{person_id}/images")
     Call<ProfilesResponse> getPersonImages(@Path("person_id") int id, @Query("api_key") String apiKey);
+
+    @GET("person/{person_id}/combined_credits")
+    Call<CastCombinedResponse> getcombined_credits(@Path("person_id") int id, @Query("api_key") String apiKey);
+
+    @GET("person/{person_id}/combined_credits")
+    Call<CrewCombinedResponse> getcombined_creditscrew(@Path("person_id") int id, @Query("api_key") String apiKey);
     //ENDPERSON
+
+    //search
+    @GET("search/movie")
+    Call<MoviesResponse> getSearchMovie(@Query("api_key") String apiKey, @Query("query") String searchquery);
+
+    @GET("search/tv")
+    Call<TVResponse> getSearchtv(@Query("api_key") String apiKey, @Query("query") String searchquery);
+
+    @GET("search/person")
+    Call<PersonResponse> getSearchperson(@Query("api_key") String apiKey, @Query("query") String searchquery);
 
 
 }

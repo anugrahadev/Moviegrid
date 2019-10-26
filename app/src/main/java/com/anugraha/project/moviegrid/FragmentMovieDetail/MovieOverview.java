@@ -33,7 +33,10 @@ import com.anugraha.project.moviegrid.model.MoviesResponse;
 import com.bumptech.glide.Glide;
 
 import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -80,7 +83,6 @@ public class MovieOverview extends Fragment {
         Intent intentStarted = getActivity().getIntent();
         movie_id = getActivity().getIntent().getExtras().getInt("id");
         if (intentStarted.hasExtra("id")){
-            Client Client = new Client();
             Service apiService = Client.getClient().create(Service.class);
             Call<MovieDetailResponse> call = apiService.getMovieDEtail(movie_id, BuildConfig.THE_MOVIE_DB_API_TOKEN);
             call.enqueue(new Callback<MovieDetailResponse>() {
@@ -102,10 +104,24 @@ public class MovieOverview extends Fragment {
                         tv_revenue.setText("$"+NumberFormat.getNumberInstance(Locale.US).format(response.body().getRevenue()));
                     }
 
-                    tv_release_date.setText(response.body().getReleaseDate());
-                    int hours = response.body().getRuntime() / 60; //since both are ints, you get an int
-                    int minutes = response.body().getRuntime() % 60;
-                    tv_runtime.setText(response.body().getRuntime().toString()+"m / "+hours+"h "+minutes+"m");
+                    SimpleDateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    SimpleDateFormat targetFormat = new SimpleDateFormat("dd MMM yyyy" );
+                    Date date;
+                    try {
+                        String release_date = response.body().getReleaseDate();
+                        date = originalFormat.parse(release_date);
+                        tv_release_date.setText(targetFormat.format(date));
+                    } catch (ParseException ex) {
+                        // Handle Exception.
+                    }
+                    if (response.body().getRuntime()!=0 ||response.body().getRuntime()!=null){
+                        int hours = response.body().getRuntime() / 60; //since both are ints, you get an int
+                        int minutes = response.body().getRuntime() % 60;
+                        tv_runtime.setText(response.body().getRuntime().toString()+"m / "+hours+"h "+minutes+"m");
+                    }else{
+                        tv_runtime.setText("Not Found");
+                    }
+
                     if (response.body().getVoteAverage() == 0 || response.body().getVoteAverage()==0.0){
                         tv_rating.setText("Not Rated");
                     }else{
