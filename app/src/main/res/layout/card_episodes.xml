@@ -82,9 +82,4 @@
             android:textColor="#f1f1f1"
             android:id="@+id/tv_episode_overview"/>
     </LinearLayout>
-
-
-
-
-
 </LinearLayout>
