@@ -14,6 +14,8 @@ import com.anugraha.project.moviegrid.model.Person;
 import com.anugraha.project.moviegrid.model.PersonResponse;
 import com.anugraha.project.moviegrid.model.ProfilesResponse;
 import com.anugraha.project.moviegrid.model.ReviewsResponse;
+import com.anugraha.project.moviegrid.model.TVDetail.Seasons.SeasonResponse;
+import com.anugraha.project.moviegrid.model.TVDetail.TVDetailResponse;
 import com.anugraha.project.moviegrid.model.TVResponse;
 import com.anugraha.project.moviegrid.model.TrailerResponse;
 
@@ -61,6 +63,20 @@ public interface Service {
 
     @GET("tv/top_rated")
     Call<TVResponse> getTop_ratedTV(@Query("api_key") String apiKey);
+
+    @GET("tv/{tv_id}")
+    Call<TVDetailResponse> getTVDetail(@Path("tv_id") int id, @Query("api_key") String apiKey);
+
+    @GET("tv/{movie_id}/credits")
+    Call<CreditResponse> getCreditstv(@Path("movie_id") int id, @Query("api_key") String apiKey);
+
+    @GET("tv/{tv_id}/videos")
+    Call<TrailerResponse> getTrailertv(@Path("tv_id") int id, @Query("api_key") String apiKey);
+
+    @GET("tv/{tv_id}/season/{season_number}")
+    Call<SeasonResponse> getSeasonEpisodes(@Path("tv_id") int id, @Path("season_number") int sn, @Query("api_key") String apiKey);
+
+
     //END TV
 
     //MOVIES PATH

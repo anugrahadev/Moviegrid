@@ -81,7 +81,7 @@ public class MovieOverview extends Fragment {
         rv_crew = view.findViewById(R.id.rv_crew);
 
         Intent intentStarted = getActivity().getIntent();
-        movie_id = getActivity().getIntent().getExtras().getInt("id");
+        movie_id = intentStarted.getExtras().getInt("id");
         if (intentStarted.hasExtra("id")){
             Service apiService = Client.getClient().create(Service.class);
             Call<MovieDetailResponse> call = apiService.getMovieDEtail(movie_id, BuildConfig.THE_MOVIE_DB_API_TOKEN);

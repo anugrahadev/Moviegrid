@@ -33,10 +33,10 @@ public class PagerTVDetail extends FragmentStatePagerAdapter {
                 TVOverviewFragment tab1 = new TVOverviewFragment();
                 return tab1;
             case 1:
-                TVvideosFragment tab2 = new TVvideosFragment();
+                TVSeasonFragment tab2 = new TVSeasonFragment();
                 return tab2;
             case 2:
-                TVSeasonFragment tab3 = new TVSeasonFragment();
+                TVvideosFragment tab3 = new TVvideosFragment();
                 return tab3;
             case 3:
                 TVSimilarFragment tab4 = new TVSimilarFragment();

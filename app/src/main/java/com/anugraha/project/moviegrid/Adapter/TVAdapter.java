@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.anugraha.project.moviegrid.Activity.DetailActivity;
 import com.anugraha.project.moviegrid.Activity.R;
+import com.anugraha.project.moviegrid.Activity.TVDetailActivity;
 import com.anugraha.project.moviegrid.model.TVResult;
 import com.bumptech.glide.Glide;
 
@@ -66,7 +67,7 @@ public class TVAdapter extends RecyclerView.Adapter<TVAdapter.MyViewHolder>{
                     int pos = getAdapterPosition();
                     if (pos != RecyclerView.NO_POSITION){
                         TVResult clickedDataItem = tvResultList.get(pos);
-                        Intent intent1 = new Intent(mContext, DetailActivity.class);
+                        Intent intent1 = new Intent(mContext, TVDetailActivity.class);
                         intent1.putExtra("original_title",tvResultList.get(pos).getOriginalName());
                         intent1.putExtra("poster_path",tvResultList.get(pos).getPosterPath());
                         intent1.putExtra("backdrop_path",tvResultList.get(pos).getBackdropPath());
