@@ -25,10 +25,7 @@ public class MovieSimilarAdapter extends RecyclerView.Adapter<MovieSimilarAdapte
     public MovieSimilarAdapter(Context mContext, List<MovieSimilarResult> movieSimilarResults) {
         this.mContext = mContext;
         this.movieSimilarResults = movieSimilarResults;
-
     }
-
-
 
     @Override
     public MyViewGHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
@@ -86,12 +83,6 @@ public class MovieSimilarAdapter extends RecyclerView.Adapter<MovieSimilarAdapte
                     if (pos != RecyclerView.NO_POSITION){
                         MovieSimilarResult clickedDataItem = movieSimilarResults.get(pos);
                         Intent intent1 = new Intent(mContext, DetailActivity.class);
-                        intent1.putExtra("original_title",movieSimilarResults.get(pos).getOriginalTitle());
-                        intent1.putExtra("poster_path",movieSimilarResults.get(pos).getPosterPath());
-                        intent1.putExtra("backdrop_path",movieSimilarResults.get(pos).getBackdropPath());
-                        intent1.putExtra("overview",movieSimilarResults.get(pos).getOverview());
-                        intent1.putExtra("vote_average",Double.toString(movieSimilarResults.get(pos).getVoteAverage()));
-                        intent1.putExtra("release_date",movieSimilarResults.get(pos).getReleaseDate());
                         intent1.putExtra("id",movieSimilarResults.get(pos).getId());
                         intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         mContext.startActivity(intent1);

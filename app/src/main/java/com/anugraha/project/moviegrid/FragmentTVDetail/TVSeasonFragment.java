@@ -50,6 +50,7 @@ public class TVSeasonFragment extends Fragment {
         progressDialog.setCancelable(false);
         progressDialog.show();
         id = getActivity().getIntent().getExtras().getInt("id");
+
         rv_season = view.findViewById(R.id.rv_season);
         seasonList = new ArrayList<>();
         adapter = new SeasonAdapter(getContext(),seasonList);

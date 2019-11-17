@@ -25,7 +25,7 @@ public class EpisodesActivity extends AppCompatActivity {
     RecyclerView rv_episodes;
     List<Episode> episodeList;
     EpisodeAdapter adapter;
-    Integer id=1399,sn;
+    Integer id=0,sn=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +38,7 @@ public class EpisodesActivity extends AppCompatActivity {
         rv_episodes.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         sn = getIntent().getExtras().getInt("number");
+        id = getIntent().getExtras().getInt("idtv");
         loadJSON();
 
     }
@@ -48,9 +49,8 @@ public class EpisodesActivity extends AppCompatActivity {
         call.enqueue(new Callback<SeasonResponse>() {
             @Override
             public void onResponse(Call<SeasonResponse> call, Response<SeasonResponse> response) {
-                episodeList = response.body().getEpisodes();
-                id = episodeList.get(0).getShowId();
-                rv_episodes.setAdapter(new EpisodeAdapter(getApplicationContext(),episodeList));
+                List<Episode> episodes = response.body().getEpisodes();
+                rv_episodes.setAdapter(new EpisodeAdapter(getApplicationContext(),episodes));
             }
 
             @Override

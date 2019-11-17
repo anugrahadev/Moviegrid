@@ -1,6 +1,4 @@
 package com.anugraha.project.moviegrid.FragmentMovieDetail;
-
-
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -42,8 +40,6 @@ public class SimilarMovies extends Fragment {
     public SimilarMovies() {
         // Required empty public constructor
     }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -65,7 +61,6 @@ public class SimilarMovies extends Fragment {
         loadJSON();
         return view;
     }
-
     private void loadJSON() {
         try {
             if (BuildConfig.THE_MOVIE_DB_API_TOKEN.isEmpty()){
@@ -82,12 +77,10 @@ public class SimilarMovies extends Fragment {
                     recyclerView.setAdapter(new MovieSimilarAdapter(getContext(), movies));
                     recyclerView.smoothScrollToPosition(0);
                 }
-
                 @Override
                 public void onFailure(Call<MovieSimilarResponse> call, Throwable t) {
                     Log.d("Error", t.getMessage());
                     Toast.makeText(getActivity(), "Error Fetching Data!", Toast.LENGTH_SHORT).show();
-
                 }
             });
         }catch (Exception err){
@@ -95,5 +88,4 @@ public class SimilarMovies extends Fragment {
             Toast.makeText(getActivity(), err.toString(), Toast.LENGTH_SHORT).show();
         }
     }
-
 }
