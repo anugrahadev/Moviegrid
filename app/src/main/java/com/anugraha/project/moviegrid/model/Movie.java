@@ -58,7 +58,6 @@ public class Movie implements Parcelable {
         this.voteAverage = voteAverage;
     }
 
-
     public Movie(){
 
     }
@@ -71,8 +70,7 @@ public class Movie implements Parcelable {
         }
     };
 
-    public String getPosterPath()
-    {
+    public String getPosterPath() {
         return  posterPath;
     }
 

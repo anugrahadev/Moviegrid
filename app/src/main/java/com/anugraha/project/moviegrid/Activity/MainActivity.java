@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.anugraha.project.moviegrid.FragmentDrawer.FavoriteFragment;
 import com.anugraha.project.moviegrid.FragmentDrawer.MoviesFragment;
 import com.anugraha.project.moviegrid.FragmentDrawer.PersonFragment;
 import com.anugraha.project.moviegrid.FragmentDrawer.SearchFragment;
@@ -62,6 +63,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_search:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new SearchFragment()).commit();
+                break;
+            case R.id.nav_fav:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new FavoriteFragment()).commit();
                 break;
         }
 

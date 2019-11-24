@@ -22,6 +22,10 @@
             android:id="@+id/nav_person"
             android:icon="@drawable/ic_person_white"
             android:title="Popular People/Actors" />
+        <item
+            android:id="@+id/nav_fav"
+            android:icon="@drawable/ic_star_border_white_24dp"
+            android:title="Favorite" />
     </group>
 
 
