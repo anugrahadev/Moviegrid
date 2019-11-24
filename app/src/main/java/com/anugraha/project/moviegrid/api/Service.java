@@ -14,8 +14,8 @@ import com.anugraha.project.moviegrid.model.PersonResponse;
 import com.anugraha.project.moviegrid.model.ProfilesResponse;
 import com.anugraha.project.moviegrid.model.ReviewsResponse;
 import com.anugraha.project.moviegrid.model.TVDetail.Seasons.SeasonResponse;
-import com.anugraha.project.moviegrid.model.TVDetail.Seasons.TVSimilarResponse;
 import com.anugraha.project.moviegrid.model.TVDetail.TVDetailResponse;
+import com.anugraha.project.moviegrid.model.TVDetail.TVSimilarResponse;
 import com.anugraha.project.moviegrid.model.TVResponse;
 import com.anugraha.project.moviegrid.model.TrailerResponse;
 

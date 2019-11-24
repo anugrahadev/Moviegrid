@@ -38,7 +38,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(final MoviesAdapter.MyViewHolder viewHolder, int i){
-        viewHolder.title.setText(movieList.get(i).getTitle());
+        viewHolder.title.setText(movieList.get(i).getOriginalTitle());
         String vote = Double.toString(movieList.get(i).getVoteAverage());
         if (movieList.get(i).getVoteAverage()==0){
             viewHolder.userrating.setText("NR");

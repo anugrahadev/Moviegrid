@@ -1,6 +1,5 @@
 package com.anugraha.project.moviegrid.Adapter.TVDetailAdapter;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -10,22 +9,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.anugraha.project.moviegrid.Activity.DetailActivity;
 import com.anugraha.project.moviegrid.Activity.R;
-import com.anugraha.project.moviegrid.Activity.TVDetailActivity;
-import com.anugraha.project.moviegrid.Adapter.MovieSimilarAdapter;
-import com.anugraha.project.moviegrid.model.Movie;
-import com.anugraha.project.moviegrid.model.MovieDetail.MovieSimilarResult;
-import com.anugraha.project.moviegrid.model.TVDetail.Seasons.TVSimilarResult;
+import com.anugraha.project.moviegrid.model.TVDetail.Result;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
 
 public class TVSimilarAdapter extends RecyclerView.Adapter<TVSimilarAdapter.MyViewHolder> {
     private Context mContext;
-    private List<TVSimilarResult> tvSimilarResults;
+    private List<Result> tvSimilarResults;
 
-    public TVSimilarAdapter(Context mContext, List<TVSimilarResult> tvSimilarResults) {
+    public TVSimilarAdapter(Context mContext, List<Result> tvSimilarResults) {
         this.mContext = mContext;
         this.tvSimilarResults = tvSimilarResults;
     }

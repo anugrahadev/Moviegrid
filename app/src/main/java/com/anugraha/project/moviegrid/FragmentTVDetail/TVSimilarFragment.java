@@ -14,14 +14,11 @@ import android.widget.Toast;
 
 import com.anugraha.project.moviegrid.Activity.BuildConfig;
 import com.anugraha.project.moviegrid.Activity.R;
-import com.anugraha.project.moviegrid.Adapter.MovieSimilarAdapter;
 import com.anugraha.project.moviegrid.Adapter.TVDetailAdapter.TVSimilarAdapter;
 import com.anugraha.project.moviegrid.api.Client;
 import com.anugraha.project.moviegrid.api.Service;
-import com.anugraha.project.moviegrid.model.MovieDetail.MovieSimilarResponse;
-import com.anugraha.project.moviegrid.model.MovieDetail.MovieSimilarResult;
-import com.anugraha.project.moviegrid.model.TVDetail.Seasons.TVSimilarResponse;
-import com.anugraha.project.moviegrid.model.TVDetail.Seasons.TVSimilarResult;
+import com.anugraha.project.moviegrid.model.TVDetail.Result;
+import com.anugraha.project.moviegrid.model.TVDetail.TVSimilarResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +34,7 @@ import retrofit2.Response;
 public class TVSimilarFragment extends Fragment {
     private RecyclerView recyclerView;
     private TVSimilarAdapter adapter;
-    private List<TVSimilarResult> similarResultsList;
+    private List<Result> similarResultsList;
     Integer movie_id;
 
     public TVSimilarFragment() {
@@ -67,33 +64,26 @@ public class TVSimilarFragment extends Fragment {
     }
 
     private void loadJSON() {
-        try {
-            if (BuildConfig.THE_MOVIE_DB_API_TOKEN.isEmpty()){
-                Toast.makeText(getContext(),"API Token Invalid",Toast.LENGTH_SHORT).show();
-                return;
-            }
             Client client = new Client();
             Service apiService = Client.getClient().create(Service.class);
-            Call<TVSimilarResponse> call = apiService.getSimiliarTV(movie_id, BuildConfig.THE_MOVIE_DB_API_TOKEN);
+            Call<TVSimilarResponse> call = apiService.getSimiliarTV(60625, "67317e16c17fe1dc7b1b5ba1e217d143");
             call.enqueue(new Callback<TVSimilarResponse>() {
                 @Override
                 public void onResponse(Call<TVSimilarResponse> call, Response<TVSimilarResponse> response) {
-                    similarResultsList = response.body().getResults();
-                    recyclerView.setAdapter(new TVSimilarAdapter(getContext(), similarResultsList));
-                    recyclerView.smoothScrollToPosition(0);
+                    if (response.isSuccessful()){
+                        similarResultsList=response.body().getResults();
+                        recyclerView.setAdapter(new TVSimilarAdapter(getContext(), similarResultsList));
+                        recyclerView.smoothScrollToPosition(0);
+                    }
                 }
 
                 @Override
                 public void onFailure(Call<TVSimilarResponse> call, Throwable t) {
-                    Log.d("Error", t.getMessage());
-                    Toast.makeText(getActivity(), "Error Fetching Data!", Toast.LENGTH_SHORT).show();
 
                 }
             });
-        }catch (Exception err){
-            Log.d("Error", err.getMessage());
-            Toast.makeText(getActivity(), err.toString(), Toast.LENGTH_SHORT).show();
-        }
+
+
     }
 
 }
