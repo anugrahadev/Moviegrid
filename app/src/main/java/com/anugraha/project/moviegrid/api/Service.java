@@ -46,7 +46,7 @@ public interface Service {
     Call<MovieDetailGenre> getMovieDetailGenre(@Path("movie_id") int id, @Query("api_key") String apiKey);
 
     @GET("movie/{movie_id}/similar")
-    Call<MovieSimilarResponse> getSimiliarMovie(@Path("movie_id") int id, @Query("api_key") String apiKey);
+    Call<MoviesResponse> getSimiliarMovie(@Path("movie_id") int id, @Query("api_key") String apiKey);
 
 
     //ENDMOVIES

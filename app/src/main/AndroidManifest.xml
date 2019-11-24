@@ -21,7 +21,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".EpisodesActivity" />
-        <activity android:name=".TVDetailActivity" />
+        <activity android:name=".TVDetailActivity"
+            android:parentActivityName=".MainActivity"/>
         <activity android:name=".SearchActivity" />
         <activity android:name=".VideosActivity" />
         <activity

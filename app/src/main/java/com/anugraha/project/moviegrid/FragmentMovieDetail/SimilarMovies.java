@@ -18,8 +18,6 @@ import com.anugraha.project.moviegrid.Adapter.MoviesAdapter;
 import com.anugraha.project.moviegrid.api.Client;
 import com.anugraha.project.moviegrid.api.Service;
 import com.anugraha.project.moviegrid.model.Movie;
-import com.anugraha.project.moviegrid.model.MovieDetail.MovieSimilarResponse;
-import com.anugraha.project.moviegrid.model.MovieDetail.MovieSimilarResult;
 import com.anugraha.project.moviegrid.model.MoviesResponse;
 
 import java.util.ArrayList;
@@ -35,7 +33,7 @@ import retrofit2.Response;
 public class SimilarMovies extends Fragment {
     private RecyclerView recyclerView;
     private MovieSimilarAdapter adapter;
-    private List<MovieSimilarResult> similarResultsList;
+    private List<Movie> similarResultsList;
     Integer movie_id;
     public SimilarMovies() {
         // Required empty public constructor
@@ -69,16 +67,16 @@ public class SimilarMovies extends Fragment {
             }
             Client client = new Client();
             Service apiService = Client.getClient().create(Service.class);
-            Call<MovieSimilarResponse> call = apiService.getSimiliarMovie(movie_id, BuildConfig.THE_MOVIE_DB_API_TOKEN);
-            call.enqueue(new Callback<MovieSimilarResponse>() {
+            Call<MoviesResponse> call = apiService.getSimiliarMovie(movie_id, BuildConfig.THE_MOVIE_DB_API_TOKEN);
+            call.enqueue(new Callback<MoviesResponse>() {
                 @Override
-                public void onResponse(Call<MovieSimilarResponse> call, Response<MovieSimilarResponse> response) {
-                    List<MovieSimilarResult> movies = response.body().getResults();
+                public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
+                    List<Movie> movies = response.body().getResults();
                     recyclerView.setAdapter(new MovieSimilarAdapter(getContext(), movies));
                     recyclerView.smoothScrollToPosition(0);
                 }
                 @Override
-                public void onFailure(Call<MovieSimilarResponse> call, Throwable t) {
+                public void onFailure(Call<MoviesResponse> call, Throwable t) {
                     Log.d("Error", t.getMessage());
                     Toast.makeText(getActivity(), "Error Fetching Data!", Toast.LENGTH_SHORT).show();
                 }

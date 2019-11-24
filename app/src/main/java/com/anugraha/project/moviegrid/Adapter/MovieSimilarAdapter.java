@@ -13,16 +13,15 @@ import android.widget.TextView;
 import com.anugraha.project.moviegrid.Activity.DetailActivity;
 import com.anugraha.project.moviegrid.Activity.R;
 import com.anugraha.project.moviegrid.model.Movie;
-import com.anugraha.project.moviegrid.model.MovieDetail.MovieSimilarResult;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
 
 public class MovieSimilarAdapter extends RecyclerView.Adapter<MovieSimilarAdapter.MyViewGHolder> {
     private Context mContext;
-    private List<MovieSimilarResult> movieSimilarResults;
+    private List<Movie> movieSimilarResults;
 
-    public MovieSimilarAdapter(Context mContext, List<MovieSimilarResult> movieSimilarResults) {
+    public MovieSimilarAdapter(Context mContext, List<Movie> movieSimilarResults) {
         this.mContext = mContext;
         this.movieSimilarResults = movieSimilarResults;
     }
@@ -81,9 +80,10 @@ public class MovieSimilarAdapter extends RecyclerView.Adapter<MovieSimilarAdapte
                 public void onClick(View v) {
                     int pos = getAdapterPosition();
                     if (pos != RecyclerView.NO_POSITION){
-                        MovieSimilarResult clickedDataItem = movieSimilarResults.get(pos);
+                        Movie clickedDataItem = movieSimilarResults.get(pos);
                         Intent intent1 = new Intent(mContext, DetailActivity.class);
                         intent1.putExtra("id",movieSimilarResults.get(pos).getId());
+                        intent1.putExtra("movies",clickedDataItem);
                         intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         mContext.startActivity(intent1);
 
