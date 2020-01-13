@@ -47,6 +47,8 @@ public class TVOverviewFragment extends Fragment {
     private CreditAdapter adaptercast;
     private List<Crew> crewList;
     private CrewAdapter adaptercrew;
+
+
     public TVOverviewFragment() {
         // Required empty public constructor
     }

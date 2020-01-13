@@ -194,7 +194,7 @@ public class TopFragment extends Fragment {
     private Call<MoviesResponse> callTopRatedMoviesApi() {
         return movieService.getTop_ratedMovis(
                 BuildConfig.THE_MOVIE_DB_API_TOKEN,
-                currentPage
+                currentPage,"id"
         );
     }
 

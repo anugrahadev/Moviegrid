@@ -1,10 +1,10 @@
-package com.anugraha.project.moviegrid.model.TVDetail.Seasons;
+package com.anugraha.project.moviegrid.model.TVDetail;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class TVSimilarResult {
+public class Result {
 
     @SerializedName("original_name")
     @Expose
@@ -20,7 +20,7 @@ public class TVSimilarResult {
     private Integer voteCount;
     @SerializedName("vote_average")
     @Expose
-    private Integer voteAverage;
+    private Double voteAverage;
     @SerializedName("first_air_date")
     @Expose
     private String firstAirDate;
@@ -78,11 +78,11 @@ public class TVSimilarResult {
         this.voteCount = voteCount;
     }
 
-    public Integer getVoteAverage() {
+    public Double getVoteAverage() {
         return voteAverage;
     }
 
-    public void setVoteAverage(Integer voteAverage) {
+    public void setVoteAverage(Double voteAverage) {
         this.voteAverage = voteAverage;
     }
 

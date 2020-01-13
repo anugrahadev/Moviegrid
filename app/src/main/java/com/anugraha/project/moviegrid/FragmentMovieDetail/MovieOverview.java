@@ -1,10 +1,18 @@
 package com.anugraha.project.moviegrid.FragmentMovieDetail;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,6 +29,8 @@ import com.anugraha.project.moviegrid.Activity.R;
 import com.anugraha.project.moviegrid.Adapter.CreditAdapter;
 import com.anugraha.project.moviegrid.Adapter.CrewAdapter;
 import com.anugraha.project.moviegrid.Adapter.MoviesAdapter;
+import com.anugraha.project.moviegrid.data.FavoriteContract;
+import com.anugraha.project.moviegrid.data.FavoriteDbHelper;
 import com.anugraha.project.moviegrid.api.Client;
 import com.anugraha.project.moviegrid.api.Service;
 import com.anugraha.project.moviegrid.model.Cast;
@@ -31,7 +41,7 @@ import com.anugraha.project.moviegrid.model.MovieDetail.MovieDetailGenre;
 import com.anugraha.project.moviegrid.model.MovieDetail.MovieDetailResponse;
 import com.anugraha.project.moviegrid.model.MoviesResponse;
 import com.bumptech.glide.Glide;
-
+import com.github.ivbaranov.mfb.MaterialFavoriteButton;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -52,11 +62,19 @@ public class MovieOverview extends Fragment {
     TextView tv_status, tv_release_date, tv_budget, tv_revenue, tv_runtime, tv_title,tv_rating,tv_genre,tv_tagline,tv_overview;
     RecyclerView rv_cast;
     RecyclerView rv_crew;
-    Integer movie_id;
     private List<Cast> castList;
     private CreditAdapter adaptercast;
     private List<Crew> crewList;
     private CrewAdapter adaptercrew;
+
+    private FavoriteDbHelper favoriteDbHelper;
+    private Movie favorite;
+    private SQLiteDatabase mDb;
+
+    Movie movie;
+    String thumbnail, movieName, synopsis, rating, dateOfRelease;
+    int movie_id;
+
     public MovieOverview() {
         // Required empty public constructor
     }
@@ -80,9 +98,22 @@ public class MovieOverview extends Fragment {
         rv_cast = view.findViewById(R.id.rv_cast);
         rv_crew = view.findViewById(R.id.rv_crew);
 
+        FavoriteDbHelper dbHelper = new FavoriteDbHelper(getContext());
+        mDb = dbHelper.getWritableDatabase();
+
         Intent intentStarted = getActivity().getIntent();
-        movie_id = intentStarted.getExtras().getInt("id");
-        if (intentStarted.hasExtra("id")){
+
+        if (intentStarted.hasExtra("movies")) {
+
+            movie = getActivity().getIntent().getParcelableExtra("movies");
+
+            thumbnail = movie.getPosterPath();
+            movieName = movie.getOriginalTitle();
+            synopsis = movie.getOverview();
+            rating = Double.toString(movie.getVoteAverage());
+            dateOfRelease = movie.getReleaseDate();
+            movie_id = movie.getId();
+
             Service apiService = Client.getClient().create(Service.class);
             Call<MovieDetailResponse> call = apiService.getMovieDEtail(movie_id, BuildConfig.THE_MOVIE_DB_API_TOKEN);
             call.enqueue(new Callback<MovieDetailResponse>() {
@@ -151,6 +182,80 @@ public class MovieOverview extends Fragment {
                 }
             });
         }
+
+        MaterialFavoriteButton materialFavoriteButton  = (MaterialFavoriteButton) view.findViewById(R.id.favorite_button);
+
+//        final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+//
+//
+//        materialFavoriteButtonNice.setOnFavoriteChangeListener(
+//                new MaterialFavoriteButton.OnFavoriteChangeListener(){
+//                    @Override
+//                    public void onFavoriteChanged(MaterialFavoriteButton buttonView, boolean favorite){
+//                        if (favorite){
+//                            SharedPreferences.Editor editor = getActivity().getSharedPreferences("com.anugraha.project.moviegrid.Activity.DetailActivity", Context.MODE_PRIVATE).edit();
+//                            editor.putBoolean("Favorite Added", true);
+//                            editor.commit();
+//                            saveFavorite();
+//                            Snackbar.make(buttonView, "Added to Favorite",
+//                                    Snackbar.LENGTH_SHORT).show();
+//                        }else{
+//                            int movie_id = getActivity().getIntent().getExtras().getInt("id");
+//                            favoriteDbHelper = new FavoriteDbHelper(getContext());
+//                            favoriteDbHelper.deleteFavorite(movie_id);
+//
+//                            SharedPreferences.Editor editor = getActivity().getSharedPreferences("com.anugraha.project.moviegrid.Activity.DetailActivity", Context.MODE_PRIVATE).edit();
+//                            editor.putBoolean("Favorite Removed", true);
+//                            editor.commit();
+//                            Snackbar.make(buttonView, "Removed from Favorite",
+//                                    Snackbar.LENGTH_SHORT).show();
+//                        }
+//
+//                    }
+//                }
+//        );
+        if (Exists(movieName)){
+            materialFavoriteButton.setFavorite(true);
+            materialFavoriteButton.setOnFavoriteChangeListener(
+                    new MaterialFavoriteButton.OnFavoriteChangeListener() {
+                        @Override
+                        public void onFavoriteChanged(MaterialFavoriteButton buttonView, boolean favorite) {
+                            if (favorite == true) {
+                                saveFavorite();
+                                Snackbar.make(buttonView, "Added to Favorite",
+                                        Snackbar.LENGTH_SHORT).show();
+                            } else {
+                                favoriteDbHelper = new FavoriteDbHelper(getContext());
+                                favoriteDbHelper.deleteFavorite(movie_id);
+                                Snackbar.make(buttonView, "Removed from Favorite",
+                                        Snackbar.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
+
+        }else {
+            materialFavoriteButton.setOnFavoriteChangeListener(
+                    new MaterialFavoriteButton.OnFavoriteChangeListener() {
+                        @Override
+                        public void onFavoriteChanged(MaterialFavoriteButton buttonView, boolean favorite) {
+                            if (favorite == true) {
+                                saveFavorite();
+                                Snackbar.make(buttonView, "Added to Favorite",
+                                        Snackbar.LENGTH_SHORT).show();
+                            } else {
+                                int movie_id = getActivity().getIntent().getExtras().getInt("id");
+                                favoriteDbHelper = new FavoriteDbHelper(getContext());
+                                favoriteDbHelper.deleteFavorite(movie_id);
+                                Snackbar.make(buttonView, "Removed from Favorite",
+                                        Snackbar.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
+
+        }
+
         castList= new ArrayList<>();
         adaptercast = new  CreditAdapter(getContext(), castList);
         RecyclerView.LayoutManager mLayoutManagerCast = new LinearLayoutManager(getContext(),LinearLayout.HORIZONTAL,false);
@@ -168,10 +273,6 @@ public class MovieOverview extends Fragment {
         rv_crew.setHasFixedSize(false);
         adaptercrew.notifyDataSetChanged();
         loadJSONCrew();
-
-
-
-
         return view;
     }
 
@@ -207,6 +308,43 @@ public class MovieOverview extends Fragment {
 
             }
         });
+    }
+
+    public void saveFavorite(){
+        favoriteDbHelper = new FavoriteDbHelper(getContext());
+        favorite = new Movie();
+
+        Double rate = movie.getVoteAverage();
+
+
+        favorite.setId(movie_id);
+        favorite.setOriginalTitle(movieName);
+        favorite.setPosterPath(thumbnail);
+        favorite.setVoteAverage(rate);
+        favorite.setOverview(synopsis);
+
+        favoriteDbHelper.addFavorite(favorite);
+    }
+
+    public boolean Exists(String searchItem) {
+
+        String[] projection = {
+                FavoriteContract.FavoriteEntry._ID,
+                FavoriteContract.FavoriteEntry.COLUMN_MOVIEID,
+                FavoriteContract.FavoriteEntry.COLUMN_TITLE,
+                FavoriteContract.FavoriteEntry.COLUMN_USERRATING,
+                FavoriteContract.FavoriteEntry.COLUMN_POSTER_PATH,
+                FavoriteContract.FavoriteEntry.COLUMN_PLOT_SYNOPSIS
+
+        };
+        String selection = FavoriteContract.FavoriteEntry.COLUMN_TITLE + " =?";
+        String[] selectionArgs = { searchItem };
+        String limit = "1";
+
+        Cursor cursor = mDb.query(FavoriteContract.FavoriteEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, null, limit);
+        boolean exists = (cursor.getCount() > 0);
+        cursor.close();
+        return exists;
     }
 
 }

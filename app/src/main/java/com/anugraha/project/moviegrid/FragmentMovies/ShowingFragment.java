@@ -193,7 +193,7 @@ public class ShowingFragment extends Fragment {
     private Call<MoviesResponse> callTopRatedMoviesApi() {
         return movieService.getNow_playing(
                 BuildConfig.THE_MOVIE_DB_API_TOKEN,
-                currentPage
+                currentPage, "id"
         );
     }
 

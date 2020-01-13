@@ -1,4 +1,4 @@
-package com.anugraha.project.moviegrid.model.TVDetail.Seasons;
+package com.anugraha.project.moviegrid.model.TVDetail;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;
@@ -11,7 +11,7 @@ public class TVSimilarResponse {
     private Integer page;
     @SerializedName("results")
     @Expose
-    private List<TVSimilarResult> results = null;
+    private List<Result> results = null;
     @SerializedName("total_pages")
     @Expose
     private Integer totalPages;
@@ -27,11 +27,11 @@ public class TVSimilarResponse {
         this.page = page;
     }
 
-    public List<TVSimilarResult> getResults() {
+    public List<Result> getResults() {
         return results;
     }
 
-    public void setResults(List<TVSimilarResult> results) {
+    public void setResults(List<Result> results) {
         this.results = results;
     }
 

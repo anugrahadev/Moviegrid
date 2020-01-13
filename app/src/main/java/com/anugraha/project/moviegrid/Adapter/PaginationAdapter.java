@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.anugraha.project.moviegrid.Activity.DetailActivity;
 import com.anugraha.project.moviegrid.Activity.R;
@@ -220,6 +221,7 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     if (pos != RecyclerView.NO_POSITION){
                         Movie clickedDataItem = movieResults.get(pos);
                         Intent intent1 = new Intent(context, DetailActivity.class);
+                        intent1.putExtra("movies", clickedDataItem );
                         intent1.putExtra("original_title",movieResults.get(pos).getOriginalTitle());
                         intent1.putExtra("poster_path",movieResults.get(pos).getPosterPath());
                         intent1.putExtra("backdrop_path",movieResults.get(pos).getBackdropPath());
@@ -233,6 +235,7 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     }
                 }
             });
+
         }
     }
 

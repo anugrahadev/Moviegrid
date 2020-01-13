@@ -195,7 +195,7 @@ public class UpcomingFragment extends Fragment {
     private Call<MoviesResponse> callTopRatedMoviesApi() {
         return movieService.getUpcoming(
                 BuildConfig.THE_MOVIE_DB_API_TOKEN,
-                currentPage
+                currentPage,"id"
         );
     }
 

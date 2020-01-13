@@ -20,8 +20,8 @@ import com.anugraha.project.moviegrid.model.RequestTokenResponse;
 import com.anugraha.project.moviegrid.model.ReviewsResponse;
 import com.anugraha.project.moviegrid.model.SessionResponse;
 import com.anugraha.project.moviegrid.model.TVDetail.Seasons.SeasonResponse;
-import com.anugraha.project.moviegrid.model.TVDetail.Seasons.TVSimilarResponse;
 import com.anugraha.project.moviegrid.model.TVDetail.TVDetailResponse;
+import com.anugraha.project.moviegrid.model.TVDetail.TVSimilarResponse;
 import com.anugraha.project.moviegrid.model.TVResponse;
 import com.anugraha.project.moviegrid.model.TrailerResponse;
 
@@ -40,16 +40,16 @@ public interface Service {
 
     //MOVIES
     @GET("movie/popular")
-    Call<MoviesResponse> getPopularMovis(@Query("api_key") String apiKey, @Query("page") int pageIndex);
+    Call<MoviesResponse> getPopularMovis(@Query("api_key") String apiKey, @Query("page") int pageIndex, @Query("region") String region);
 
     @GET("movie/top_rated")
-    Call<MoviesResponse> getTop_ratedMovis(@Query("api_key") String apiKey, @Query("page") int pageIndex);
+    Call<MoviesResponse> getTop_ratedMovis(@Query("api_key") String apiKey, @Query("page") int pageIndex, @Query("region") String region);
 
     @GET("movie/upcoming")
-    Call<MoviesResponse> getUpcoming(@Query("api_key") String apiKey, @Query("page") int pageIndex);
+    Call<MoviesResponse> getUpcoming(@Query("api_key") String apiKey, @Query("page") int pageIndex,@Query("region") String region);
 
     @GET("movie/now_playing")
-    Call<MoviesResponse> getNow_playing(@Query("api_key") String apiKey, @Query("page") int pageIndex);
+    Call<MoviesResponse> getNow_playing(@Query("api_key") String apiKey, @Query("page") int pageIndex,@Query("region") String region);
 
     @GET("movie/{movie_id}")
     Call<MovieDetailResponse> getMovieDEtail(@Path("movie_id") int id, @Query("api_key") String apiKey);
@@ -58,7 +58,7 @@ public interface Service {
     Call<MovieDetailGenre> getMovieDetailGenre(@Path("movie_id") int id, @Query("api_key") String apiKey);
 
     @GET("movie/{movie_id}/similar")
-    Call<MovieSimilarResponse> getSimiliarMovie(@Path("movie_id") int id, @Query("api_key") String apiKey);
+    Call<MoviesResponse> getSimiliarMovie(@Path("movie_id") int id, @Query("api_key") String apiKey);
 
 
     //ENDMOVIES
