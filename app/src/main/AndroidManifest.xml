@@ -3,6 +3,8 @@
     package="com.anugraha.project.moviegrid.Activity">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:allowBackup="true"
@@ -11,7 +13,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EpisodesActivity"></activity>
+        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".SignInAct" />
+        <activity android:name=".GetStartedActivity" />
+        <activity android:name=".SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".EpisodesActivity" />
         <activity android:name=".TVDetailActivity" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".VideosActivity" />
@@ -21,13 +33,7 @@
         <activity
             android:name=".DetailActivity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>

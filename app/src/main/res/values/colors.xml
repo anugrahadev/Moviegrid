@@ -12,5 +12,11 @@
     <color name="color_transparent">#00FFFFFF</color>
     <color name="transparent">#00000000</color>
     <color name="greenPrimary">#00D277</color>
+    <color name="bluePrimary">#203DD1</color>
+    <color name="blueSecondary">#2595F5</color>
+    <color name="grayPrimary">#8d8d8d</color>
+    <color name="GreenPrimary">#3AC2A9</color>
+    <color name="blackPrimary">#21272C</color>
+    <color name="bgPrimary">#EDF1F8</color>
 
 </resources>

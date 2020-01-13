@@ -11,22 +11,42 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.anugraha.project.moviegrid.FragmentDrawer.FavoriteFragment;
 import com.anugraha.project.moviegrid.FragmentDrawer.MoviesFragment;
 import com.anugraha.project.moviegrid.FragmentDrawer.PersonFragment;
 import com.anugraha.project.moviegrid.FragmentDrawer.SearchFragment;
 import com.anugraha.project.moviegrid.FragmentDrawer.TvFragment;
+import com.anugraha.project.moviegrid.SharedPrefManager;
+import com.anugraha.project.moviegrid.api.Client;
+import com.anugraha.project.moviegrid.api.Service;
+import com.anugraha.project.moviegrid.model.MovieDetail.MovieDetailResponse;
+import com.anugraha.project.moviegrid.model.RequestTokenResponse;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
+    ImageView iv_photop;
+    String request_token;
+    TextView tv_username;
+    SharedPrefManager sharedPrefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        sharedPrefManager = new SharedPrefManager(this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -42,6 +62,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     new MoviesFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_movies);
         }
+
+
+        iv_photop = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.iv_photop);
+        iv_photop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent gotoSign = new Intent(MainActivity.this, SignInAct.class);
+                startActivity(gotoSign);
+            }
+        });
+
+        tv_username = navigationView.getHeaderView(0).findViewById(R.id.tv_username);
+        if (sharedPrefManager.getSPSudahLogin()==true){
+            tv_username.setText(sharedPrefManager.getSPUsername());
+        }else{
+            tv_username.setText("Click to Login");
+        }
+
+
+
     }
 
     @Override
@@ -62,6 +103,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_search:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new SearchFragment()).commit();
+                break;
+            case R.id.nav_favorite:
+
+                if (sharedPrefManager.getSPSudahLogin()==true){
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                            new FavoriteFragment()).commit();
+                }else{
+                    Toast.makeText(MainActivity.this, "You must have Logged in to access this function", Toast.LENGTH_SHORT).show();
+                }
+
                 break;
         }
 

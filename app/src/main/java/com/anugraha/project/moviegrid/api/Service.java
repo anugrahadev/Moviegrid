@@ -1,6 +1,10 @@
 package com.anugraha.project.moviegrid.api;
 
+import com.anugraha.project.moviegrid.model.AccountResponse;
 import com.anugraha.project.moviegrid.model.CreditResponse;
+import com.anugraha.project.moviegrid.model.FavoriteMovie;
+import com.anugraha.project.moviegrid.model.LoginResponse;
+import com.anugraha.project.moviegrid.model.LogoutResponse;
 import com.anugraha.project.moviegrid.model.MovieDetail.MovieDetailGenre;
 import com.anugraha.project.moviegrid.model.MovieDetail.MovieDetailResponse;
 import com.anugraha.project.moviegrid.model.MovieDetail.MovieSimilarResponse;
@@ -12,7 +16,9 @@ import com.anugraha.project.moviegrid.model.PeopleModel.CrewResponse;
 import com.anugraha.project.moviegrid.model.Person;
 import com.anugraha.project.moviegrid.model.PersonResponse;
 import com.anugraha.project.moviegrid.model.ProfilesResponse;
+import com.anugraha.project.moviegrid.model.RequestTokenResponse;
 import com.anugraha.project.moviegrid.model.ReviewsResponse;
+import com.anugraha.project.moviegrid.model.SessionResponse;
 import com.anugraha.project.moviegrid.model.TVDetail.Seasons.SeasonResponse;
 import com.anugraha.project.moviegrid.model.TVDetail.Seasons.TVSimilarResponse;
 import com.anugraha.project.moviegrid.model.TVDetail.TVDetailResponse;
@@ -20,7 +26,13 @@ import com.anugraha.project.moviegrid.model.TVResponse;
 import com.anugraha.project.moviegrid.model.TrailerResponse;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.DELETE;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -125,6 +137,37 @@ public interface Service {
 
     @GET("search/person")
     Call<PersonResponse> getSearchperson(@Query("api_key") String apiKey, @Query("query") String searchquery);
+
+
+    //LOGIN
+
+    @GET("authentication/token/new")
+    Call<RequestTokenResponse> getRequestToken(@Query("api_key") String apiKey);
+
+    @FormUrlEncoded
+    @POST("authentication/token/validate_with_login")
+    Call<LoginResponse> Login(@Query("api_key") String apiKey,
+                              @Field("username") String username,
+                              @Field("password") String password,
+                              @Field("request_token") String request_token);
+
+    @FormUrlEncoded
+    @POST("authentication/session/new")
+    Call<SessionResponse> LoginSession(@Query("api_key") String apiKey,
+                                @Field("request_token") String request_token);
+
+    @GET("account")
+    Call<AccountResponse> getAccount(@Query("api_key") String apiKey, @Query("session_id") String session_id);
+
+
+    @FormUrlEncoded
+    @HTTP(method = "DELETE", path = "authentication/session", hasBody = true)
+    Call<LogoutResponse> deleteSomething(@Query("api_key") String apiKey, @Field("session_id") String session_id);
+
+    //favorite
+
+    @GET("account/{account_id}/favorite/movies")
+    Call<MoviesResponse> getFavoriteMovie(@Query("api_key") String apiKey,@Query("session_id") String session_id, @Query("sort_by") String sort_by, @Query("page") int pageIndex);
 
 
 }
