@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.anugraha.project.moviegrid.Activity.BuildConfig;
 import com.anugraha.project.moviegrid.Activity.R;
 import com.anugraha.project.moviegrid.Adapter.TVDetailAdapter.SeasonAdapter;
+import com.anugraha.project.moviegrid.SharedPrefManager;
 import com.anugraha.project.moviegrid.api.Client;
 import com.anugraha.project.moviegrid.api.Service;
 import com.anugraha.project.moviegrid.model.TVDetail.Season;
@@ -35,6 +36,8 @@ public class TVSeasonFragment extends Fragment {
     SeasonAdapter adapter;
     Integer id;
     ProgressDialog progressDialog;
+    SharedPrefManager sharedPrefManager;
+
     public TVSeasonFragment() {
         // Required empty public constructor
     }
@@ -49,6 +52,8 @@ public class TVSeasonFragment extends Fragment {
         progressDialog.setMessage("Loading movies...");
         progressDialog.setCancelable(false);
         progressDialog.show();
+        sharedPrefManager = new SharedPrefManager(getContext());
+
         id = getActivity().getIntent().getExtras().getInt("id");
 
         rv_season = view.findViewById(R.id.rv_season);
@@ -65,7 +70,7 @@ public class TVSeasonFragment extends Fragment {
 
     private void loadJSON() {
         Service apiservices = Client.getClient().create(Service.class);
-        Call<TVDetailResponse> call = apiservices.getTVDetail(id, BuildConfig.THE_MOVIE_DB_API_TOKEN);
+        Call<TVDetailResponse> call = apiservices.getTVDetail(id, BuildConfig.THE_MOVIE_DB_API_TOKEN,sharedPrefManager.getSpLang());
         call.enqueue(new Callback<TVDetailResponse>() {
             @Override
             public void onResponse(Call<TVDetailResponse> call, Response<TVDetailResponse> response) {

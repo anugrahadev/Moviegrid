@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.anugraha.project.moviegrid.Activity.DetailActivity;
 import com.anugraha.project.moviegrid.Activity.R;
+import com.anugraha.project.moviegrid.SharedPrefManager;
 import com.anugraha.project.moviegrid.model.Movie;
 import com.bumptech.glide.Glide;
 
@@ -22,10 +23,14 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
 
     private Context mContext;
     private List<Movie> movieList;
+    SharedPrefManager sharedPrefManager;
+    int imagesize=0;
 
     public MoviesAdapter(Context mContext, List<Movie> movieList){
         this.mContext = mContext;
         this.movieList = movieList;
+        sharedPrefManager = new SharedPrefManager(mContext);
+
     }
 
     @Override
@@ -53,7 +58,14 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
             }
         }
         viewHolder.tv_release.setText(movieList.get(i).getReleaseDate());
-        String poster = "https://image.tmdb.org/t/p/w500" + movieList.get(i).getPosterPath();
+        if (sharedPrefManager.getImgQuality()=="High"){
+            imagesize=780;
+        }else if(sharedPrefManager.getImgQuality()=="Medium"){
+            imagesize=500;
+        }else if(sharedPrefManager.getImgQuality()=="Low"){
+            imagesize=342;
+        }
+        String poster = "https://image.tmdb.org/t/p/w"+imagesize+"/"+ movieList.get(i).getPosterPath();
 
         Glide.with(mContext)
                 .load(poster)

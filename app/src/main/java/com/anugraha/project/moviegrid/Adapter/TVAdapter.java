@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.anugraha.project.moviegrid.Activity.DetailActivity;
 import com.anugraha.project.moviegrid.Activity.R;
 import com.anugraha.project.moviegrid.Activity.TVDetailActivity;
+import com.anugraha.project.moviegrid.SharedPrefManager;
 import com.anugraha.project.moviegrid.model.TVResult;
 import com.bumptech.glide.Glide;
 
@@ -21,6 +22,8 @@ import java.util.List;
 public class TVAdapter extends RecyclerView.Adapter<TVAdapter.MyViewHolder>{
     Context mContext;
     List<TVResult> tvResultList;
+    SharedPrefManager sharedPrefManager;
+
     public TVAdapter(Context mContext, List<TVResult> tvResultList){
         this.mContext=mContext;
         this.tvResultList=tvResultList;
@@ -30,6 +33,7 @@ public class TVAdapter extends RecyclerView.Adapter<TVAdapter.MyViewHolder>{
     public TVAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.card_movie, viewGroup, false);
+        sharedPrefManager = new SharedPrefManager(mContext);
 
         return new MyViewHolder(view);
     }
@@ -75,6 +79,8 @@ public class TVAdapter extends RecyclerView.Adapter<TVAdapter.MyViewHolder>{
                         intent1.putExtra("vote_average",Double.toString(tvResultList.get(pos).getVoteAverage()));
                         intent1.putExtra("release_date",tvResultList.get(pos).getFirstAirDate());
                         intent1.putExtra("id",tvResultList.get(pos).getId());
+                        sharedPrefManager.setSpTVID(tvResultList.get(pos).getId());
+
                         intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         mContext.startActivity(intent1);
 

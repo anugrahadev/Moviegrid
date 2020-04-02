@@ -15,21 +15,21 @@ import android.widget.Toast;
 
 import com.anugraha.project.moviegrid.Activity.DetailActivity;
 import com.anugraha.project.moviegrid.Activity.R;
+import com.anugraha.project.moviegrid.SharedPrefManager;
 import com.anugraha.project.moviegrid.model.Movie;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by delaroy on 12/5/17.
- */
 
 public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int ITEM = 0;
     private static final int LOADING = 1;
-    private static final String BASE_URL_IMG = "https://image.tmdb.org/t/p/w342";
+    private static String BASE_URL_IMG = "342";
+    SharedPrefManager sharedPrefManager;
+
 
     private List<Movie> movieResults;
     private Context context;
@@ -46,6 +46,7 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public PaginationAdapter(Context context) {
         this.context = context;
         movieResults = new ArrayList<>();
+        sharedPrefManager = new SharedPrefManager(context);
     }
 
     public List<Movie> getMovies() {
@@ -110,8 +111,15 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                  * Learn more about Glide here:
                  *
                  */
+                if (sharedPrefManager.getImgQuality()=="High"){
+                    BASE_URL_IMG="780";
+                }else if(sharedPrefManager.getImgQuality()=="Medium"){
+                    BASE_URL_IMG="342";
+                }else if(sharedPrefManager.getImgQuality()=="Low"){
+                    BASE_URL_IMG="185";
+                }
                 Glide.with(context)
-                        .load(BASE_URL_IMG+result.getPosterPath())
+                        .load("https://image.tmdb.org/t/p/w"+BASE_URL_IMG+result.getPosterPath())
                         .placeholder(R.drawable.load)
                         .into(movieVH.thumbnail);
 

@@ -166,8 +166,14 @@ public class FavoriteMovieFragment extends Fragment {
                 List<Movie> results = fetchResults(response);
                 adapter.addAll(results);
 
-                if (currentPage != TOTAL_PAGES) adapter.addLoadingFooter();
-                else isLastPage = true;
+                if (TOTAL_PAGES==1){
+                    isLastPage = true;
+                }else if (currentPage != TOTAL_PAGES){
+                    adapter.addLoadingFooter();
+                }else {
+                    isLastPage = true;
+                }
+
             }
 
             @Override

@@ -1,13 +1,18 @@
 package com.anugraha.project.moviegrid.api;
 
 import com.anugraha.project.moviegrid.model.AccountResponse;
+import com.anugraha.project.moviegrid.model.BodyFavorite;
+import com.anugraha.project.moviegrid.model.BodyWatchlist;
 import com.anugraha.project.moviegrid.model.CreditResponse;
+import com.anugraha.project.moviegrid.model.FavResponse;
 import com.anugraha.project.moviegrid.model.FavoriteMovie;
 import com.anugraha.project.moviegrid.model.LoginResponse;
 import com.anugraha.project.moviegrid.model.LogoutResponse;
 import com.anugraha.project.moviegrid.model.MovieDetail.MovieDetailGenre;
 import com.anugraha.project.moviegrid.model.MovieDetail.MovieDetailResponse;
 import com.anugraha.project.moviegrid.model.MovieDetail.MovieSimilarResponse;
+import com.anugraha.project.moviegrid.model.MovieStateResponse;
+import com.anugraha.project.moviegrid.model.MovieStateResponse2;
 import com.anugraha.project.moviegrid.model.MoviesResponse;
 import com.anugraha.project.moviegrid.model.PeopleModel.CastCombinedResponse;
 import com.anugraha.project.moviegrid.model.PeopleModel.CastResponse;
@@ -23,6 +28,7 @@ import com.anugraha.project.moviegrid.model.TVDetail.Seasons.SeasonResponse;
 import com.anugraha.project.moviegrid.model.TVDetail.TVDetailResponse;
 import com.anugraha.project.moviegrid.model.TVDetail.TVSimilarResponse;
 import com.anugraha.project.moviegrid.model.TVResponse;
+import com.anugraha.project.moviegrid.model.TVStateResponse;
 import com.anugraha.project.moviegrid.model.TrailerResponse;
 
 import retrofit2.Call;
@@ -52,7 +58,7 @@ public interface Service {
     Call<MoviesResponse> getNow_playing(@Query("api_key") String apiKey, @Query("page") int pageIndex,@Query("region") String region);
 
     @GET("movie/{movie_id}")
-    Call<MovieDetailResponse> getMovieDEtail(@Path("movie_id") int id, @Query("api_key") String apiKey);
+    Call<MovieDetailResponse> getMovieDEtail(@Path("movie_id") int id, @Query("api_key") String apiKey, @Query("language") String language);
 
     @GET("movie/{movie_id}")
     Call<MovieDetailGenre> getMovieDetailGenre(@Path("movie_id") int id, @Query("api_key") String apiKey);
@@ -65,19 +71,19 @@ public interface Service {
 
     //TV
     @GET("tv/popular")
-    Call<TVResponse> getPopularTV(@Query("api_key") String apiKey);
+    Call<TVResponse> getPopularTV(@Query("api_key") String apiKey, @Query("page") int pageIndex,@Query("region") String region);
 
     @GET("tv/on_the_air")
-    Call<TVResponse> getOTRTV(@Query("api_key") String apiKey);
+    Call<TVResponse> getOTRTV(@Query("api_key") String apiKey,@Query("page") int pageIndex,@Query("region") String region);
 
     @GET("tv/airing_today")
-    Call<TVResponse> getAiringTV(@Query("api_key") String apiKey);
+    Call<TVResponse> getAiringTV(@Query("api_key") String apiKey,@Query("page") int pageIndex,@Query("region") String region);
 
     @GET("tv/top_rated")
-    Call<TVResponse> getTop_ratedTV(@Query("api_key") String apiKey);
+    Call<TVResponse> getTop_ratedTV(@Query("api_key") String apiKey,@Query("page") int pageIndex,@Query("region") String region);
 
     @GET("tv/{tv_id}")
-    Call<TVDetailResponse> getTVDetail(@Path("tv_id") int id, @Query("api_key") String apiKey);
+    Call<TVDetailResponse> getTVDetail(@Path("tv_id") int id, @Query("api_key") String apiKey, @Query("language") String language);
 
     @GET("tv/{movie_id}/credits")
     Call<CreditResponse> getCreditstv(@Path("movie_id") int id, @Query("api_key") String apiKey);
@@ -168,6 +174,58 @@ public interface Service {
 
     @GET("account/{account_id}/favorite/movies")
     Call<MoviesResponse> getFavoriteMovie(@Query("api_key") String apiKey,@Query("session_id") String session_id, @Query("sort_by") String sort_by, @Query("page") int pageIndex);
+
+    @GET("account/{account_id}/favorite/tv")
+    Call<TVResponse> getFavoriteTV(@Query("api_key") String apiKey,@Query("session_id") String session_id, @Query("sort_by") String sort_by, @Query("page") int pageIndex);
+
+    @GET("account/{account_id}/rated/movies")
+    Call<MoviesResponse> getRatedMovie(@Query("api_key") String apiKey,@Query("session_id") String session_id, @Query("sort_by") String sort_by, @Query("page") int pageIndex);
+
+    @GET("account/{account_id}/rated/tv")
+    Call<TVResponse> getRatedTV(@Query("api_key") String apiKey,@Query("session_id") String session_id, @Query("sort_by") String sort_by, @Query("page") int pageIndex);
+
+    @GET("account/{account_id}/watchlist/movies")
+    Call<MoviesResponse> getWatchlistMovie(@Query("api_key") String apiKey,@Query("session_id") String session_id, @Query("sort_by") String sort_by, @Query("page") int pageIndex);
+
+    @GET("account/{account_id}/watchlist/tv")
+    Call<TVResponse> getWatchlistTV(@Query("api_key") String apiKey,@Query("session_id") String session_id, @Query("sort_by") String sort_by, @Query("page") int pageIndex);
+
+
+    @FormUrlEncoded
+    @POST("account/{account_id}/favorite")
+    Call<FavResponse> postfav(@Path("account_id") int account_id, @Query("api_key") String apiKey, @Query("session_id") String session_id, @Field("media_type") String media_type, @Field("media_id") int media_id,@Field("favorite") boolean favorite);
+
+    @FormUrlEncoded
+    @POST("movie/{movie_id}/rating")
+    Call<FavResponse> postRate(@Path("movie_id") int movie_id, @Query("api_key") String apiKey, @Query("session_id") String session_id, @Field("value") double value);
+
+    @FormUrlEncoded
+    @POST("tv/{tv_id}/rating")
+    Call<FavResponse> postTVRate(@Path("tv_id") int tv_id, @Query("api_key") String apiKey, @Query("session_id") String session_id, @Field("value") double value);
+
+
+    @POST("account/{account_id}/favorite")
+    Call<FavResponse> markAsFavorite(@Body BodyFavorite bodyFavorite,
+                                  @Query("api_key") String apiKey,
+                                  @Query("session_id") String sessionId);
+
+    @POST("account/{account_id}/watchlist")
+    Call<FavResponse> markAsWatchlisted(@Body BodyWatchlist bodyWatchlist,
+                                     @Query("api_key") String apiKey,
+                                     @Query("session_id") String sessionId);
+
+
+    @GET("movie/{movie_id}/account_states")
+    Call<MovieStateResponse> getMovieState(@Path("movie_id") int movie_id, @Query("api_key") String apiKey, @Query("session_id") String session_id);
+
+    @GET("movie/{movie_id}/account_states")
+    Call<MovieStateResponse2> getMovieState2(@Path("movie_id") int movie_id, @Query("api_key") String apiKey, @Query("session_id") String session_id);
+
+    @GET("tv/{tv_id}/account_states")
+    Call<TVStateResponse> getTVState(@Path("tv_id") int tv_id, @Query("api_key") String apiKey, @Query("session_id") String session_id);
+
+    @GET("tv/{tv_id}/account_states")
+    Call<MovieStateResponse2> getTVStateObject(@Path("tv_id") int tv_id, @Query("api_key") String apiKey, @Query("session_id") String session_id);
 
 
 }

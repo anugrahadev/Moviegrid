@@ -20,6 +20,7 @@ import com.anugraha.project.moviegrid.Adapter.MoviesAdapter;
 import com.anugraha.project.moviegrid.Activity.BuildConfig;
 import com.anugraha.project.moviegrid.Activity.R;
 import com.anugraha.project.moviegrid.Adapter.PaginationAdapter;
+import com.anugraha.project.moviegrid.SharedPrefManager;
 import com.anugraha.project.moviegrid.api.Client;
 import com.anugraha.project.moviegrid.api.Service;
 import com.anugraha.project.moviegrid.model.Movie;
@@ -39,6 +40,8 @@ import retrofit2.Response;
 public class TopFragment extends Fragment {
     PaginationAdapter adapter;
     LinearLayoutManager linearLayoutManager;
+    SharedPrefManager sharedPrefManager;
+
 
     RecyclerView rv;
 
@@ -46,7 +49,7 @@ public class TopFragment extends Fragment {
     private boolean isLoading = false;
     private boolean isLastPage = false;
     // limiting to 5 for this tutorial, since total pages in actual API is very large. Feel free to modify.
-    private int TOTAL_PAGES = 20;
+    private int TOTAL_PAGES = 1;
     private int currentPage = PAGE_START;
 
     private Service movieService;
@@ -63,6 +66,7 @@ public class TopFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_showing, container, false);
+        sharedPrefManager = new SharedPrefManager(getContext());
 
         rv = (RecyclerView) view.findViewById(R.id.recycler_view);
 //        progressDialog = new ProgressDialog(getContext());
@@ -133,13 +137,17 @@ public class TopFragment extends Fragment {
             @Override
             public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
                 // Got data. Send it to adapter
-
+                TOTAL_PAGES = 20;
                 List<Movie> results = fetchResults(response);
-//                progressDialog.dismiss();
                 adapter.addAll(results);
 
-                if (currentPage <= TOTAL_PAGES) adapter.addLoadingFooter();
-                else isLastPage = true;
+                if (TOTAL_PAGES==1){
+                    isLastPage = true;
+                }else if (currentPage != TOTAL_PAGES){
+                    adapter.addLoadingFooter();
+                }else {
+                    isLastPage = true;
+                }
             }
 
             @Override
@@ -194,7 +202,7 @@ public class TopFragment extends Fragment {
     private Call<MoviesResponse> callTopRatedMoviesApi() {
         return movieService.getTop_ratedMovis(
                 BuildConfig.THE_MOVIE_DB_API_TOKEN,
-                currentPage,"id"
+                currentPage,sharedPrefManager.getSpRegion()
         );
     }
 

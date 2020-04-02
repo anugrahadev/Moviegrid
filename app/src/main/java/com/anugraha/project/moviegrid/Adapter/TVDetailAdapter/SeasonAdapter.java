@@ -14,6 +14,7 @@ import com.anugraha.project.moviegrid.Activity.DetailActivity;
 import com.anugraha.project.moviegrid.Activity.EpisodesActivity;
 import com.anugraha.project.moviegrid.Activity.R;
 import com.anugraha.project.moviegrid.Adapter.MoviesAdapter;
+import com.anugraha.project.moviegrid.SharedPrefManager;
 import com.anugraha.project.moviegrid.model.Movie;
 import com.anugraha.project.moviegrid.model.TVDetail.Season;
 import com.bumptech.glide.Glide;
@@ -24,6 +25,8 @@ public class SeasonAdapter extends RecyclerView.Adapter<SeasonAdapter.MyViewHold
 
     Context mContext;
     List<Season> seasonList;
+    SharedPrefManager sharedPrefManager;
+
 
     public SeasonAdapter(Context mContext, List<Season> seasonList){
         this.mContext = mContext;
@@ -70,21 +73,20 @@ public class SeasonAdapter extends RecyclerView.Adapter<SeasonAdapter.MyViewHold
             tv_total_episode = (TextView) itemView.findViewById(R.id.tv_total_episode);
             tv_date = (TextView) itemView.findViewById(R.id.tv_date);
             tv_overview = (TextView) itemView.findViewById(R.id.tv_overview);
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    int pos = getAdapterPosition();
-//                    if (pos != RecyclerView.NO_POSITION){
-//                        Season clickedDataItem = seasonList.get(pos);
-//                        Intent intent1 = new Intent(mContext, EpisodesActivity.class);
-//                        intent1.putExtra("number",seasonList.get(pos).getSeasonNumber());
-//                        intent1.putExtra("idtv",1399);
-//                        intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                        mContext.startActivity(intent1);
-//
-//                    }
-//                }
-//            });
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = getAdapterPosition();
+                    if (pos != RecyclerView.NO_POSITION){
+                        Season clickedDataItem = seasonList.get(pos);
+                        Intent intent1 = new Intent(mContext, EpisodesActivity.class);
+                        intent1.putExtra("number",seasonList.get(pos).getSeasonNumber());
+                        intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        mContext.startActivity(intent1);
+
+                    }
+                }
+            });
         }
     }
 }

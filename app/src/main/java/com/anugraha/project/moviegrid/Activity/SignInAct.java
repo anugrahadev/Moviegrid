@@ -97,8 +97,8 @@ public class SignInAct extends AppCompatActivity {
                                             });
 
                                         }else{
-                                            Toast.makeText(SignInAct.this, "Gagal Login", Toast.LENGTH_SHORT).show();
-
+                                            Toast.makeText(SignInAct.this, "Username or Password Invalid", Toast.LENGTH_SHORT).show();
+                                            progressDialog.dismiss();
                                         }
                                     }
 

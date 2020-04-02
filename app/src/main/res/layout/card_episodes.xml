@@ -62,8 +62,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Title"
-            android:textColor="#fff"
-            android:textSize="18sp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20.5sp"
+            android:fontFamily="@font/mmedium"
             android:textStyle="bold"
             android:layout_marginStart="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -79,7 +80,10 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#f1f1f1"
+            android:textSize="16.2sp"
+            android:fontFamily="@font/mmedium"
+            android:text="@string/lorem"
+            android:textColor="@color/colorPrimary"
             android:id="@+id/tv_episode_overview"/>
     </LinearLayout>
 </LinearLayout>

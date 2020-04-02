@@ -5,10 +5,9 @@ import android.content.SharedPreferences;
 
 public class SharedPrefManager {
     public static final String SP_MOVIESPOT = "spMovieSpot";
-
     public static final String SP_USERNAME = "spUSERNAME";
-
     public static final String SP_SUDAH_LOGIN = "spSudahLogin";
+    public static final String SP_Region ="region";
 
     SharedPreferences sp;
     SharedPreferences.Editor spEditor;
@@ -46,6 +45,32 @@ public class SharedPrefManager {
     }
 
 
+    public void setSpName(String name){
+        spEditor.putString("name", name);
+        spEditor.commit();
+    }
+    public String getSPname(){
+        return sp.getString("name", null);
+    }
+
+    public void setSpAccountID(int accountID){
+        spEditor.putInt("accountID", accountID);
+        spEditor.commit();
+    }
+
+    public int getSpAccountID(){
+        return sp.getInt("accountID", 0);
+    }
+
+    public void setSpTVID(int tvid){
+        spEditor.putInt("tvid", tvid);
+        spEditor.commit();
+    }
+
+    public int getSpTVID(){
+        return sp.getInt("tvid", 0);
+    }
+
 
     public void saveSPBoolean(String keySP, boolean value){
         spEditor.putBoolean(keySP, value);
@@ -59,5 +84,32 @@ public class SharedPrefManager {
 
     public Boolean getSPSudahLogin(){
         return sp.getBoolean(SP_SUDAH_LOGIN, false);
+    }
+
+    public void setSpRegion(String region){
+        spEditor.putString("region", region);
+        spEditor.commit();
+    }
+
+    public String getSpRegion(){
+        return sp.getString(SP_Region, "US");
+    }
+
+    public void setSpLang(String region){
+        spEditor.putString("language", region);
+        spEditor.commit();
+    }
+
+    public String getSpLang(){
+        return sp.getString("language", "EN");
+    }
+
+    public void setSpImgQuality(String ImgQuality){
+        spEditor.putString("imgquality", ImgQuality);
+        spEditor.commit();
+    }
+
+    public String getImgQuality(){
+        return sp.getString("imgquality", "Medium");
     }
 }

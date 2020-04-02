@@ -1,5 +1,6 @@
 package com.anugraha.project.moviegrid.model;
 
+import java.util.Comparator;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -45,7 +46,40 @@ public class TVResult {
     @SerializedName("poster_path")
     @Expose
     private String posterPath;
+    @SerializedName("rating")
+    @Expose
+    private Double rating;
 
+
+    public TVResult(String originalName, List<Integer> genreIds, String name, Double popularity, List<String> originCountry, Integer voteCount, String firstAirDate, String backdropPath, String originalLanguage, Integer id, Double voteAverage, String overview, String posterPath, Double Rating) {
+        this.originalName = originalName;
+        this.genreIds = genreIds;
+        this.name = name;
+        this.popularity = popularity;
+        this.originCountry = originCountry;
+        this.voteCount = voteCount;
+        this.firstAirDate = firstAirDate;
+        this.backdropPath = backdropPath;
+        this.originalLanguage = originalLanguage;
+        this.id = id;
+        this.voteAverage = voteAverage;
+        this.overview = overview;
+        this.posterPath = posterPath;
+        this.rating = Rating;
+    }
+
+    public TVResult(){
+
+    }
+
+
+    public static final Comparator<TVResult> BY_NAME_ALPHABETICAL = new Comparator<TVResult>() {
+        @Override
+        public int compare(TVResult movie, TVResult t1) {
+
+            return movie.originalName.compareTo(t1.originalName);
+        }
+    };
     public String getOriginalName() {
         return originalName;
     }
@@ -148,6 +182,14 @@ public class TVResult {
 
     public void setPosterPath(String posterPath) {
         this.posterPath = posterPath;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
     }
 
 }

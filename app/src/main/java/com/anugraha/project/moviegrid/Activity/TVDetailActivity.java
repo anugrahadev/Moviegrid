@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 
 import com.anugraha.project.moviegrid.PagerAdapter.PagerMovieDetail;
 import com.anugraha.project.moviegrid.PagerAdapter.PagerTVDetail;
+import com.anugraha.project.moviegrid.SharedPrefManager;
 import com.anugraha.project.moviegrid.api.Client;
 import com.anugraha.project.moviegrid.api.Service;
 import com.anugraha.project.moviegrid.model.MovieDetail.MovieDetailResponse;
@@ -31,6 +32,8 @@ public class TVDetailActivity extends AppCompatActivity implements TabLayout.OnT
     ProgressDialog progressDialog;
     Toolbar toolbar;
     LinearLayout fragment_detail;
+    SharedPrefManager sharedPrefManager;
+    int imgquality=0;
 
     //This is our tablayout
     private TabLayout tabLayout;
@@ -42,6 +45,8 @@ public class TVDetailActivity extends AppCompatActivity implements TabLayout.OnT
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tvdetail);
         Intent intentStarted = getIntent();
+        sharedPrefManager = new SharedPrefManager(this);
+
 //        progressDialog = new ProgressDialog(DetailActivity.this);
 //        progressDialog.setMessage("Loading movies...");
 //        progressDialog.setCancelable(false);
@@ -93,6 +98,13 @@ public class TVDetailActivity extends AppCompatActivity implements TabLayout.OnT
 
             }
         });
+        if (sharedPrefManager.getImgQuality()=="High"){
+            imgquality=780;
+        }else if(sharedPrefManager.getImgQuality()=="Medium"){
+            imgquality=780;
+        }else {
+            imgquality=300;
+        }
 
 
         iv_colappsingtoolbar = (ImageView) findViewById(R.id.thumbnail_image_header);
@@ -100,13 +112,13 @@ public class TVDetailActivity extends AppCompatActivity implements TabLayout.OnT
             Integer movie_id = getIntent().getExtras().getInt("id");
             Client Client = new Client();
             Service apiService = Client.getClient().create(Service.class);
-            Call<TVDetailResponse> call = apiService.getTVDetail(movie_id, BuildConfig.THE_MOVIE_DB_API_TOKEN);
+            Call<TVDetailResponse> call = apiService.getTVDetail(movie_id, BuildConfig.THE_MOVIE_DB_API_TOKEN, sharedPrefManager.getSpLang());
             call.enqueue(new Callback<TVDetailResponse>() {
                 @Override
                 public void onResponse(Call<TVDetailResponse> call, Response<TVDetailResponse> response) {
 //                    progressDialog.dismiss();
                     Glide.with(getApplicationContext())
-                            .load("https://image.tmdb.org/t/p/w780/"+response.body().getBackdropPath())
+                            .load("https://image.tmdb.org/t/p/w"+imgquality+response.body().getBackdropPath())
                             .placeholder(R.drawable.load)
                             .into(iv_colappsingtoolbar);
 

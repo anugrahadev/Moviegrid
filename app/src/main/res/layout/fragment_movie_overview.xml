@@ -40,22 +40,13 @@
 
                     <ImageView
                         android:id="@+id/iv_poster"
-                        android:layout_width="100dp"
-                        android:layout_height="155dp"
+                        android:layout_width="110dp"
+                        android:layout_height="174dp"
                         android:scaleType="fitXY"
                         tools:layout_editor_absoluteX="0dp"
                         tools:layout_editor_absoluteY="0dp" />
 
-                    <com.github.ivbaranov.mfb.MaterialFavoriteButton
-                        android:id="@+id/favorite_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:mfb_color="black"
-                        android:background="@drawable/bg_white_trasparent"
-                        app:mfb_animate_unfavorite="true"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:mfb_type="heart" />
+
                 </android.support.constraint.ConstraintLayout>
 
 
@@ -65,6 +56,51 @@
                     android:layout_marginLeft="10dp"
                     android:orientation="vertical">
 
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4.36dp"
+                        android:layout_marginBottom="8dp"
+                        android:orientation="horizontal">
+                        <com.github.ivbaranov.mfb.MaterialFavoriteButton
+                            android:id="@+id/favorite_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:background="@drawable/bg_white_trasparent"
+                            android:layout_marginLeft="8dp"
+                            app:mfb_size="32"
+                            app:mfb_padding="6"
+                            app:mfb_animate_unfavorite="true"
+                            app:mfb_favorite_image="@drawable/ic_favorite_pink_24dp"
+                            app:mfb_not_favorite_image="@drawable/ic_favorite_border_pink_24dp"
+                            />
+
+                        <com.github.ivbaranov.mfb.MaterialFavoriteButton
+                            android:id="@+id/watchlist_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_white_trasparent"
+                            android:layout_marginLeft="8dp"
+                            app:mfb_padding="6"
+                            app:mfb_size="32"
+                            app:mfb_animate_unfavorite="true"
+                            app:mfb_favorite_image="@drawable/ic_bookmark_red_24dp"
+                            app:mfb_not_favorite_image="@drawable/ic_bookmark_border_red_24dp"
+                            />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_ratethismovie"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_rate_review_white_24dp"
+                        android:text=" Rate This Movie!"
+                        android:padding="2dp"
+                        android:textColor="@color/greenPrimary"
+                        android:layout_marginLeft="8dp"
+                        android:textStyle="bold"/>
 
 
                     <LinearLayout
@@ -159,31 +195,47 @@
                             android:textColor="#fff" />
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:orientation="horizontal"
-                        android:padding="2dp">
 
-                        <TextView
-                            android:id="@+id/tv_rating"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:drawableLeft="@drawable/ic_star_white_24dp"
-                            android:gravity="left|center"
-                            android:textColor="#fff"
-                            android:textStyle="bold" />
-                    </LinearLayout>
                 </LinearLayout>
 
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="6.9dp"
+                android:padding="2dp">
 
+                <TextView
+                    android:id="@+id/tv_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_star_white_24dp"
+                    android:gravity="left|center"
+                    android:textColor="#fff"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_yourrate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="6dp"
+
+                    android:padding="3dp"
+                    android:textStyle="bold"
+                    android:textColor="#fff"/>
+
+
+
+
+
+
+            </LinearLayout>
             <LinearLayout
                 android:id="@+id/layout2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
                 android:orientation="horizontal"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 

@@ -5,9 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 
 import com.anugraha.project.moviegrid.Adapter.TVDetailAdapter.EpisodeAdapter;
+import com.anugraha.project.moviegrid.SharedPrefManager;
 import com.anugraha.project.moviegrid.api.Client;
 import com.anugraha.project.moviegrid.api.Service;
 import com.anugraha.project.moviegrid.model.TVDetail.Seasons.Episode;
@@ -26,10 +28,17 @@ public class EpisodesActivity extends AppCompatActivity {
     List<Episode> episodeList;
     EpisodeAdapter adapter;
     Integer id=0,sn=0;
+    SharedPrefManager sharedPrefManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_episodes);
+        sharedPrefManager = new SharedPrefManager(this);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         rv_episodes = (RecyclerView) findViewById(R.id.rv_episodes);
         episodeList = new ArrayList<>();
         adapter = new EpisodeAdapter(getApplicationContext(),episodeList);
@@ -38,14 +47,13 @@ public class EpisodesActivity extends AppCompatActivity {
         rv_episodes.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         sn = getIntent().getExtras().getInt("number");
-        id = getIntent().getExtras().getInt("idtv");
         loadJSON();
 
     }
 
     private void loadJSON() {
         Service apiService = Client.getClient().create(Service.class);
-        Call<SeasonResponse> call = apiService.getSeasonEpisodes(id, sn, BuildConfig.THE_MOVIE_DB_API_TOKEN);
+        Call<SeasonResponse> call = apiService.getSeasonEpisodes(sharedPrefManager.getSpTVID(), sn, BuildConfig.THE_MOVIE_DB_API_TOKEN);
         call.enqueue(new Callback<SeasonResponse>() {
             @Override
             public void onResponse(Call<SeasonResponse> call, Response<SeasonResponse> response) {

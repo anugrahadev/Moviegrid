@@ -3,6 +3,7 @@ package com.anugraha.project.moviegrid.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -38,10 +39,13 @@ public class Movie implements Parcelable {
     private Boolean video;
     @SerializedName("vote_average")
     private Double voteAverage;
+    @SerializedName("rating")
+    @Expose
+    private Double rating;
 
     public Movie(String posterPath, boolean adult, String overview, String releaseDate, List<Integer> genreIds, Integer id,
                  String originalTitle, String originalLanguage, String title, String backdropPath, Double popularity,
-                 Integer voteCount, Boolean video, Double voteAverage) {
+                 Integer voteCount, Boolean video, Double voteAverage, Double rating) {
         this.posterPath = posterPath;
         this.adult = adult;
         this.overview = overview;
@@ -56,6 +60,7 @@ public class Movie implements Parcelable {
         this.voteCount = voteCount;
         this.video = video;
         this.voteAverage = voteAverage;
+        this.rating = rating;
     }
 
     public Movie(){
@@ -182,6 +187,14 @@ public class Movie implements Parcelable {
         this.voteAverage = voteAverage;
     }
 
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -203,6 +216,9 @@ public class Movie implements Parcelable {
         dest.writeValue(this.voteCount);
         dest.writeValue(this.video);
         dest.writeValue(this.voteAverage);
+        dest.writeValue(this.rating);
+
+
     }
 
     protected Movie(Parcel in) {
@@ -221,6 +237,8 @@ public class Movie implements Parcelable {
         this.voteCount = (Integer) in.readValue(Integer.class.getClassLoader());
         this.video = (Boolean) in.readValue(Boolean.class.getClassLoader());
         this.voteAverage = (Double) in.readValue(Double.class.getClassLoader());
+        this.rating = (Double) in.readValue(Double.class.getClassLoader());
+
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {

@@ -13,7 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".SettingsActivity"
+            android:parentActivityName=".MainActivity"></activity>
+        <activity android:name=".ProfileActivity" />
         <activity android:name=".SignInAct" />
         <activity android:name=".GetStartedActivity" />
         <activity android:name=".SplashActivity">
@@ -24,7 +26,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".EpisodesActivity" />
-        <activity android:name=".TVDetailActivity" />
+        <activity
+            android:name=".TVDetailActivity"
+            android:parentActivityName=".MainActivity" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".VideosActivity" />
         <activity

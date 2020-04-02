@@ -1,5 +1,6 @@
 package com.anugraha.project.moviegrid.Activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,6 +8,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -19,8 +21,10 @@ import android.widget.Toast;
 import com.anugraha.project.moviegrid.FragmentDrawer.FavoriteFragment;
 import com.anugraha.project.moviegrid.FragmentDrawer.MoviesFragment;
 import com.anugraha.project.moviegrid.FragmentDrawer.PersonFragment;
+import com.anugraha.project.moviegrid.FragmentDrawer.RatedFragment;
 import com.anugraha.project.moviegrid.FragmentDrawer.SearchFragment;
 import com.anugraha.project.moviegrid.FragmentDrawer.TvFragment;
+import com.anugraha.project.moviegrid.FragmentDrawer.WatchlistFragment;
 import com.anugraha.project.moviegrid.SharedPrefManager;
 import com.anugraha.project.moviegrid.api.Client;
 import com.anugraha.project.moviegrid.api.Service;
@@ -35,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawer;
     ImageView iv_photop;
     String request_token;
-    TextView tv_username;
+    TextView tv_username,tv_name;
     SharedPrefManager sharedPrefManager;
 
     @Override
@@ -81,6 +85,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             tv_username.setText("Click to Login");
         }
 
+        tv_name=navigationView.getHeaderView(0).findViewById(R.id.tv_name);
+        if (sharedPrefManager.getSPSudahLogin()==true){
+            tv_name.setText(sharedPrefManager.getSPname());
+        }else{
+            tv_username.setText("");
+        }
+
 
 
     }
@@ -110,9 +121,120 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                             new FavoriteFragment()).commit();
                 }else{
-                    Toast.makeText(MainActivity.this, "You must have Logged in to access this function", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MainActivity.this, "You must have Logged in to access this function", Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                            this);
+                    // set title dialog
+                    alertDialogBuilder.setTitle("");
+
+                    // set pesan dari dialog
+                    alertDialogBuilder
+                            .setMessage("You must have Logged in to access this function!")
+                            .setCancelable(false)
+                            .setPositiveButton("Login",new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,int id) {
+                                    // jika tombol diklik, maka akan menutup activity ini
+                                    Intent gotologin = new Intent(MainActivity.this, SignInAct.class);
+                                    startActivity(gotologin);
+                                }
+                            })
+                            .setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // jika tombol ini diklik, akan menutup dialog
+                                    // dan tidak terjadi apa2
+                                    dialog.cancel();
+                                }
+                            });
+
+                    // membuat alert dialog dari builder
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+
+                    // menampilkan alert dialog
+                    alertDialog.show();
                 }
 
+                break;
+
+
+            case R.id.nav_watchlist:
+
+                if (sharedPrefManager.getSPSudahLogin()==true){
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                            new WatchlistFragment()).commit();
+                }else{
+//                    Toast.makeText(MainActivity.this, "You must have Logged in to access this function", Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                            this);
+                    // set title dialog
+                    alertDialogBuilder.setTitle("");
+
+                    // set pesan dari dialog
+                    alertDialogBuilder
+                            .setMessage("You must have Logged in to access this function!")
+                            .setCancelable(false)
+                            .setPositiveButton("Login",new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,int id) {
+                                    // jika tombol diklik, maka akan menutup activity ini
+                                    Intent gotologin = new Intent(MainActivity.this, SignInAct.class);
+                                    startActivity(gotologin);
+                                }
+                            })
+                            .setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // jika tombol ini diklik, akan menutup dialog
+                                    // dan tidak terjadi apa2
+                                    dialog.cancel();
+                                }
+                            });
+
+                    // membuat alert dialog dari builder
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+
+                    // menampilkan alert dialog
+                    alertDialog.show();
+                }
+                break;
+            case R.id.nav_rated:
+
+                if (sharedPrefManager.getSPSudahLogin()==true){
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                            new RatedFragment()).commit();
+                }else{
+//                    Toast.makeText(MainActivity.this, "You must have Logged in to access this function", Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                            this);
+                    // set title dialog
+                    alertDialogBuilder.setTitle("");
+
+                    // set pesan dari dialog
+                    alertDialogBuilder
+                            .setMessage("You must have Logged in to access this function!")
+                            .setCancelable(false)
+                            .setPositiveButton("Login",new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,int id) {
+                                    // jika tombol diklik, maka akan menutup activity ini
+                                    Intent gotologin = new Intent(MainActivity.this, SignInAct.class);
+                                    startActivity(gotologin);
+                                }
+                            })
+                            .setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // jika tombol ini diklik, akan menutup dialog
+                                    // dan tidak terjadi apa2
+                                    dialog.cancel();
+                                }
+                            });
+
+                    // membuat alert dialog dari builder
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+
+                    // menampilkan alert dialog
+                    alertDialog.show();
+                }
+                break;
+            case R.id.nav_settings:
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent);
                 break;
         }
 

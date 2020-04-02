@@ -23,6 +23,7 @@ import com.anugraha.project.moviegrid.Adapter.MoviesAdapter;
 import com.anugraha.project.moviegrid.Activity.BuildConfig;
 import com.anugraha.project.moviegrid.Activity.R;
 import com.anugraha.project.moviegrid.Adapter.PaginationAdapter;
+import com.anugraha.project.moviegrid.SharedPrefManager;
 import com.anugraha.project.moviegrid.api.Client;
 import com.anugraha.project.moviegrid.api.Service;
 import com.anugraha.project.moviegrid.model.Movie;
@@ -42,12 +43,22 @@ import retrofit2.Response;
  * A simple {@link Fragment} subclass.
  */
 public class PopularFragment extends Fragment {
-    private RecyclerView recyclerView;
-    private MoviesAdapter adapter;
-    private List<Movie> movieList;
-    private FavoriteDbHelper favoriteDbHelper;
-    private AppCompatActivity activity = (AppCompatActivity) getActivity();
-    public static final String LOG_TAG = MoviesAdapter.class.getName();
+    PaginationAdapter adapter;
+    LinearLayoutManager linearLayoutManager;
+    SharedPrefManager sharedPrefManager;
+
+    RecyclerView rv;
+
+    private static final int PAGE_START = 1;
+    private boolean isLoading = false;
+    private boolean isLastPage = false;
+    // limiting to 5 for this tutorial, since total pages in actual API is very large. Feel free to modify.
+    private int TOTAL_PAGES = 1;
+    private int currentPage = PAGE_START;
+
+    private Service movieService;
+    ProgressDialog progressDialog;
+    public  static final String TAG = MoviesAdapter.class.getName();
     public PopularFragment() {
         // Required empty public constructor
     }
@@ -59,52 +70,144 @@ public class PopularFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_showing, container, false);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        rv = (RecyclerView) view.findViewById(R.id.recycler_view);
+        sharedPrefManager = new SharedPrefManager(getContext());
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage("Loading movies...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
 
-        movieList=new ArrayList<>();
-        adapter = new MoviesAdapter(getContext(), movieList);
+        adapter = new PaginationAdapter(getContext());
 
-        if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-            recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
+        // rv.setLayoutManager(new GridLayoutManager(this, 2));
+        //linearLayoutManager = new GridLayoutManager(this, 2);
+        if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            linearLayoutManager = new GridLayoutManager(getContext(),2);
+            rv.setLayoutManager(linearLayoutManager);
 
         }else{
-            recyclerView.setLayoutManager(new GridLayoutManager(getContext(),4));
+            linearLayoutManager = new GridLayoutManager(getContext(),2);
+            rv.setLayoutManager(linearLayoutManager);
         }
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-        loadJSON();
+        rv.setItemAnimator(new DefaultItemAnimator());
+        rv.setAdapter(adapter);
+
+
+
+
+        rv.addOnScrollListener(new PaginationScrollListener(linearLayoutManager) {
+            @Override
+            protected void loadMoreItems() {
+                isLoading = true;
+                currentPage += 1;
+
+                // mocking network delay for API call
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadNextPage();
+                    }
+                }, 1000);
+            }
+
+            @Override
+            public int getTotalPageCount() {
+                return TOTAL_PAGES;
+            }
+
+            @Override
+            public boolean isLastPage() {
+                return isLastPage;
+            }
+
+            @Override
+            public boolean isLoading() {
+                return isLoading;
+            }
+        });
+
+        //init service and load data
+        movieService = Client.getClient().create(Service.class);
+
+        loadFirstPage();
         return view;
     }
 
-    private void loadJSON() {
-        try {
-            if (BuildConfig.THE_MOVIE_DB_API_TOKEN.isEmpty()){
-                Toast.makeText(getContext(),"API Token Invalid",Toast.LENGTH_SHORT).show();
-                return;
+    private void loadFirstPage() {
+        Log.d(TAG, "loadFirstPage: ");
+
+        callTopRatedMoviesApi().enqueue(new Callback<MoviesResponse>() {
+            @Override
+            public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
+                // Got data. Send it to adapter
+                TOTAL_PAGES = 20;
+                List<Movie> results = fetchResults(response);
+                adapter.addAll(results);
+                progressDialog.dismiss();
+
+                if (TOTAL_PAGES==1){
+                    isLastPage = true;
+                }else if (currentPage != TOTAL_PAGES){
+                    adapter.addLoadingFooter();
+                }else {
+                    isLastPage = true;
+                }
             }
-            Client client = new Client();
-            Service apiService = Client.getClient().create(Service.class);
-            Call<MoviesResponse> call = apiService.getPopularMovis(BuildConfig.THE_MOVIE_DB_API_TOKEN,1,"id");
-            call.enqueue(new Callback<MoviesResponse>() {
-                @Override
-                public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
-                    List<Movie> movies = response.body().getResults();
-                    recyclerView.setAdapter(new MoviesAdapter(getContext(), movies));
-                    recyclerView.smoothScrollToPosition(0);
-                }
 
-                @Override
-                public void onFailure(Call<MoviesResponse> call, Throwable t) {
-                    Log.d("Error", t.getMessage());
-                    Toast.makeText(getActivity(), "Error Fetching Data!", Toast.LENGTH_SHORT).show();
+            @Override
+            public void onFailure(Call<MoviesResponse> call, Throwable t) {
+                t.printStackTrace();
 
-                }
-            });
-        }catch (Exception err){
-            Log.d("Error", err.getMessage());
-            Toast.makeText(getActivity(), err.toString(), Toast.LENGTH_SHORT).show();
-        }
+            }
+        });
+
     }
+
+    /**
+     * @param response extracts List<{@link Movie>} from response
+     * @return
+     */
+    private List<Movie> fetchResults(Response<MoviesResponse> response) {
+        MoviesResponse showing = response.body();
+        return showing.getResults();
+    }
+
+    private void loadNextPage() {
+        Log.d(TAG, "loadNextPage: " + currentPage);
+
+        callTopRatedMoviesApi().enqueue(new Callback<MoviesResponse>() {
+            @Override
+            public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
+                adapter.removeLoadingFooter();
+                isLoading = false;
+
+                List<Movie> results = fetchResults(response);
+                adapter.addAll(results);
+
+                if (currentPage != TOTAL_PAGES) adapter.addLoadingFooter();
+                else isLastPage = true;
+            }
+
+            @Override
+            public void onFailure(Call<MoviesResponse> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+
+    /**
+     * Performs a Retrofit call to the top rated movies API.
+     * Same API call for Pagination.
+     * As {@link #currentPage} will be incremented automatically
+     * by @{@link PaginationScrollListener} to load next page.
+     */
+    private Call<MoviesResponse> callTopRatedMoviesApi() {
+        return movieService.getPopularMovis(
+                BuildConfig.THE_MOVIE_DB_API_TOKEN,
+                currentPage, sharedPrefManager.getSpRegion()
+        );
+    }
+
 
 }

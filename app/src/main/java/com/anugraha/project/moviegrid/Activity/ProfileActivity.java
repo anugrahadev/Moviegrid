@@ -31,7 +31,7 @@ public class ProfileActivity extends AppCompatActivity {
     Service apiService;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         sharedPrefManager = new SharedPrefManager(this);
@@ -47,6 +47,8 @@ public class ProfileActivity extends AppCompatActivity {
             public void onResponse(Call<AccountResponse> call, Response<AccountResponse> response) {
                 if (response.isSuccessful()){
                     sharedPrefManager.setSpUsername(response.body().getUsername());
+                    sharedPrefManager.setSpName(response.body().getName());
+                    sharedPrefManager.setSpAccountID(response.body().getId());
                     tv_name.setText(response.body().getName());
                     tv_username.setText(response.body().getUsername());
                 }else{
